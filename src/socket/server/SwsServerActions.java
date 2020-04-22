@@ -45,7 +45,7 @@ public class SwsServerActions{
         }
     }
 
-    public static void listen(){
+    private static void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen
         {
             //run() wird für den Thread benötigt
@@ -57,7 +57,7 @@ public class SwsServerActions{
                         socket.receive(packet);
                         String message = new String(data);
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
-
+                        //Nur normale nachrichten --> broadcasten
                         if(!srvCommand(message, packet)){
                             broadcast(message);
                         }
@@ -80,11 +80,8 @@ public class SwsServerActions{
 
             //Neues ClientObjekt erstellen
             clients.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
+            System.out.println("Test");
             broadcast("Benutzer " + name + " ist online");
-            return true;
-        }
-//noch nicht fertig!
-        if(message.startsWith("\\dis:")){
             return true;
         }
         return false;
