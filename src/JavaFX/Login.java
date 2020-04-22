@@ -40,13 +40,11 @@ public class Login extends Application  {
         DBconnection db = new DBconnection();
         window = PrimaryStage;
 
-
         GridPane layout1 = new GridPane();
         GridPane layout2 = new GridPane();
 
         btnLogin1 = new Button("Login");
         btnLogin1.setFont(new Font(15));
-
 
         btnLogin1.setOnAction(e -> {
 
@@ -89,11 +87,11 @@ public class Login extends Application  {
 
         lblContent2 = new Label("Herzlich willkommen User!");
         lblContent2.setPadding(new Insets(10));
-        lblTitle2 = new Label("Interner Bereich");
+        lblTitle2 = new Label("Schreibe eine Nachricht");
         lblTitle2.setFont(new Font(20));
         lblTitle2.setPadding(new Insets(10));
-        scene2 = new Scene(layout2, 300,200);
-        btnBack2 = new Button("Logout");
+        scene2 = new Scene(layout2, 500,800);
+        btnBack2 = new Button("Send");
 
         btnBack2.setOnAction(e -> window.setScene(scene1));
 
@@ -105,13 +103,15 @@ public class Login extends Application  {
         layout1.add(btnLogin1,1,3);
         //layout1.add(lblfail,1,4);
 
+
+        TextField textField = new TextField ();
         layout2.add(lblTitle2,1,1);
-        layout2.add(lblContent2, 1, 3);
-        layout2.add(btnBack2,2,5);
+        layout2.add(textField, 1, 3);
+        layout2.add(btnBack2,8,8);
 
 
         window.setScene(scene1);
-        window.setTitle("HalloWelt");
+        window.setTitle("SWS Messenger");
         window.show();
 
     }
