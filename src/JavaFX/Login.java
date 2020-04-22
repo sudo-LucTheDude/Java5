@@ -1,7 +1,6 @@
 package JavaFX;
 
 import Database.DBconnection;
-import com.sun.security.ntlm.Client;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,10 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import socket.client.SwsClient;
-import socket.server.ClientInfos;
-
-import java.awt.*;
-import java.net.DatagramPacket;
 
 public class Login extends Application  {
     Button btnLogin1;
@@ -34,11 +29,11 @@ public class Login extends Application  {
     Stage window;
     Scene scene1,scene2;
     static Label outputArea;
-    TextField inputField;
     TextField inputName;
     String tmp;
     String userName;
     Button btnApplyName;
+
 
     private SwsClient client;
 
@@ -65,7 +60,7 @@ public class Login extends Application  {
             String username = txtUsername1.getText();
             String password = txtPassword1.getText();
             Boolean dbCkeck = db.pw(username, password);
-            if(dbCkeck == true) {
+            if(dbCkeck) {
                 window.setScene(scene2);
 
             }else{
@@ -126,15 +121,15 @@ public class Login extends Application  {
 
         btnSend = new Button("Send");
         btnSend.setOnAction(e->{
-            tmp = inputField.getText(); //scheint Leer zu sein
+            tmp = userInput.getText(); //scheint Leer zu sein
             System.out.println(tmp);
             client.send(tmp);
-            inputField.setText("");
+            userInput.setText("");
         });
-        TextField inputField = new TextField ();
+
         layout2.add(lblTitle2,1,1);
         layout2.add(outputArea, 1,2);
-        layout2.add(inputField, 1, 3);
+        layout2.add(userInput, 1, 3);
         layout2.add(btnSend,1,8);
         layout2.add(inputName, 1, 9);
         layout2.add(btnApplyName,1,10);
