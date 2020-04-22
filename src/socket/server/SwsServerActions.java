@@ -1,17 +1,20 @@
 package socket.server;
 
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 public class SwsServerActions{
     //Static Variablen weil wegen nur einem Server
-    private static DatagramPacket socket;
+
+    private static DatagramSocket socket; //(UDP-Socket)
     private static int port;
 
     public static void start(int port){
     try{
-
-    }catch(){
-
+        socket = new DatagramSocket(port); //(UDP-Socket)
+        System.out.println("Server startet auf Port: " + port);
+    }catch(Exception e){
+        e.printStackTrace();
         }
     }
 
