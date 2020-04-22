@@ -40,20 +40,16 @@ public class DBconnection {
             if (dbanswer.equals(upw)){
                 return true;
             }
-
             int col = result.getMetaData().getColumnCount();
-
             while(result.next()){
                 for(int i = 1; i <= col; i++){
                     setPassword(result.getString(i));
                 }
             }
-
         }catch(SQLException ex){
             System.err.println(ex.getMessage());
         }
         return false;
-
     }
 
     public String getUsername() {
