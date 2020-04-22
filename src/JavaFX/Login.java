@@ -36,6 +36,7 @@ public class Login extends Application  {
     static Label outputArea;
     TextField inputField;
     TextField inputName;
+    String tmp;
     String userName;
     Button btnApplyName;
 
@@ -110,7 +111,7 @@ public class Login extends Application  {
         //layout1.add(lblfail,1,4);
 
 
-        Label outputArea = new Label();
+        TextArea outputArea = new TextArea();
         TextField inputName = new TextField();
         TextField userInput = new TextField();
         lblTitle2 = new Label("Schreibe eine Nachricht");
@@ -125,9 +126,9 @@ public class Login extends Application  {
 
         btnSend = new Button("Send");
         btnSend.setOnAction(e->{
-            String tmp = inputField.getText(); //scheint Leer zu sein
+            tmp = inputField.getText(); //scheint Leer zu sein
             System.out.println(tmp);
-            client.send(inputField.getText());
+            client.send(tmp);
             inputField.setText("");
         });
         TextField inputField = new TextField ();
