@@ -2,11 +2,10 @@ package JavaFX;
 
 import Database.DBconnection;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,9 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.awt.*;
-import java.util.concurrent.ExecutionException;
 
 public class Login extends Application  {
     Button btnLogin1;
@@ -27,7 +24,7 @@ public class Login extends Application  {
     PasswordField txtPassword1;
     TextField txtUsername1;
 
-    Button btnBack2;
+    Button btnSend;
     Label lblTitle2;
     Label lblContent2;
     Stage window;
@@ -85,15 +82,7 @@ public class Login extends Application  {
         layout1.setPadding(new Insets(10));
         layout2.setPadding(new Insets(10));
 
-        lblContent2 = new Label("Herzlich willkommen User!");
-        lblContent2.setPadding(new Insets(10));
-        lblTitle2 = new Label("Schreibe eine Nachricht");
-        lblTitle2.setFont(new Font(20));
-        lblTitle2.setPadding(new Insets(10));
-        scene2 = new Scene(layout2, 500,800);
-        btnBack2 = new Button("Send");
-
-        btnBack2.setOnAction(e -> window.setScene(scene1));
+        //btnSend.setOnAction(e -> window.setScene(scene1));
 
         layout1.add(lblTitle1 ,0,0, 2,1);
         layout1.add(lblUsername1,0,1);
@@ -104,10 +93,17 @@ public class Login extends Application  {
         //layout1.add(lblfail,1,4);
 
 
+        TextArea textArea = new TextArea();
+        lblTitle2 = new Label("Schreibe eine Nachricht");
+        lblTitle2.setFont(new Font(20));
+        lblTitle2.setPadding(new Insets(10));
+        scene2 = new Scene(layout2, 500,800);
+        btnSend = new Button("Send");
         TextField textField = new TextField ();
         layout2.add(lblTitle2,1,1);
-        layout2.add(textField, 1, 3);
-        layout2.add(btnBack2,8,8);
+        layout2.add(textArea, 1,2);
+        layout2.add(textField, 2, 3);
+        layout2.add(btnSend,8,8);
 
 
         window.setScene(scene1);
