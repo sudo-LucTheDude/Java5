@@ -24,7 +24,6 @@ public SwsClient(String name, String address, int port){
         socket = new DatagramSocket();
         running = true;
         listen();
-        System.out.println("\\con:"+name);
         send("\\con:"+name);
 
     }catch(Exception e){
@@ -36,7 +35,6 @@ public SwsClient(String name, String address, int port){
 public void send(String message){
     try{
         message += "\\e";
-        System.out.println(message);
         byte[] data = message.getBytes(); //konvertiert String zu Byte[]
         DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
         socket.send(packet);
@@ -56,11 +54,8 @@ public void send(String message){
                         DatagramPacket packet = new DatagramPacket(data, data.length); //DatagramPacket enhält viele MetaDaten, bspw. Absender usw.
                         socket.receive(packet);
                         String message = new String(data);
-                        System.out.println(message);
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
-                        System.out.println(message);
                         if(!srvCommand(message, packet)){
-                            System.out.print("Test");
                             Login.printConsole(message);
                         }
                     }
