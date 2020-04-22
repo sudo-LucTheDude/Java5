@@ -1,6 +1,7 @@
 package JavaFX;
 
 import Database.DBconnection;
+import com.sun.security.ntlm.Client;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import socket.client.SwsClient;
 
 import java.awt.*;
 
@@ -29,6 +31,14 @@ public class Login extends Application  {
     Label lblContent2;
     Stage window;
     Scene scene1,scene2;
+    static TextArea outputArea;
+    TextField inputField;
+
+    private SwsClient client;
+
+    public Login(){
+        client = new SwsClient("localhost", 2345);
+    }
 
 
     @Override
@@ -93,27 +103,36 @@ public class Login extends Application  {
         //layout1.add(lblfail,1,4);
 
 
-        TextArea textArea = new TextArea();
+        TextArea outputArea = new TextArea();
         lblTitle2 = new Label("Schreibe eine Nachricht");
         lblTitle2.setFont(new Font(20));
         lblTitle2.setPadding(new Insets(10));
         scene2 = new Scene(layout2, 500,800);
         btnSend = new Button("Send");
-        TextField textField = new TextField ();
+        btnSend.setOnAction(e->{
+
+        });
+        TextField inputField = new TextField ();
         layout2.add(lblTitle2,1,1);
-        layout2.add(textArea, 1,2);
-        layout2.add(textField, 2, 3);
-        layout2.add(btnSend,8,8);
+        layout2.add(outputArea, 1,2);
+        layout2.add(inputField, 1, 3);
+        layout2.add(btnSend,1,8);
 
 
-        window.setScene(scene1);
+        window.setScene(scene2);
         window.setTitle("SWS Messenger");
         window.show();
 
+
+
     }
+
+    private static void printConsole(String message){
+        outputArea.setText(outputArea.getText()+ message + "\n");
+    }
+
     public static void main(String[] args) {
         launch(args);
-
     }
 
 
