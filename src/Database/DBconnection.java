@@ -12,21 +12,34 @@ public class DBconnection {
     private String username = "test";
     private String password = "1234";
     private String url ="jdbc:mysql://localhost:3306/desicionmaker?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
-    private String user = "root";
-    private String dbpassword = "1234";
+    private String userDB = "root";
+    private String passwordDB = "1234";
+    private String dbanswer;
 
-    public void pw(){
+    public boolean pw(String username, String password){
 
         Login lg = new Login();
-        String uname = getUsername();
+        String uname = username;
+        String upw = password;
 
-        try(Connection conn = DriverManager.getConnection(url,user,password)){
+        try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
             System.out.println("Erfolgreich mit Datenbank verbunden!");
 
             //Ausgeben
             String query = "Select password from user where username ='" + uname +"'";
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(query);
+
+            String[] arr = null;
+            while (result.next()) {
+                String em = result.getString("password");
+                dbanswer = result.getString("password");
+            }
+            System.out.println(dbanswer);
+
+            if (dbanswer.equals(upw)){
+                return true;
+            }
 
             int col = result.getMetaData().getColumnCount();
 
@@ -39,6 +52,7 @@ public class DBconnection {
         }catch(SQLException ex){
             System.err.println(ex.getMessage());
         }
+        return false;
 
     }
 

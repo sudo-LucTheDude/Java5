@@ -56,8 +56,10 @@ public class Login extends Application  {
         btnLogin1.setOnAction(e -> {
 
             db.setUsername(txtUsername1.getText());
-            db.pw();
-            if(txtPassword1.getText().equals(db.getPassword())) {
+            String username = txtUsername1.getText();
+            String password = txtPassword1.getText();
+            Boolean dbCkeck = db.pw(username, password);
+            if(dbCkeck == true) {
                 window.setScene(scene2);
 
             }else{
@@ -119,11 +121,9 @@ public class Login extends Application  {
         layout2.add(btnSend,1,8);
 
 
-        window.setScene(scene2);
+        window.setScene(scene1);
         window.setTitle("SWS Messenger");
         window.show();
-
-
 
     }
 
@@ -133,6 +133,7 @@ public class Login extends Application  {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 
 
