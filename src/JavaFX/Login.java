@@ -47,7 +47,7 @@ public class Login extends Application  {
         btnLogin1 = new Button("Login");
         btnLogin1.setFont(new Font(15));
 
-        /*
+
         btnLogin1.setOnAction(e -> {
 
             db.setUsername(txtUsername1.getText());
@@ -59,7 +59,7 @@ public class Login extends Application  {
                 layout1.add(lblFail1, 1,4);
             }
         });
-        */
+
 
         lblFail1 = new Label("Falsches Passwort");
         lblFail1.setFont(new Font(10));
@@ -95,7 +95,7 @@ public class Login extends Application  {
         scene2 = new Scene(layout2, 300,200);
         btnBack2 = new Button("Logout");
 
-        //btnBack2.setOnAction(e -> window.setScene(scene1));
+        btnBack2.setOnAction(e -> window.setScene(scene1));
 
         layout1.add(lblTitle1 ,0,0, 2,1);
         layout1.add(lblUsername1,0,1);

@@ -2,11 +2,15 @@ package Database;
 import JavaFX.Login;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class DBconnection {
 
     private String username;
-    private String password;
+    private String password = "1234";
 
     public void pw(){
         String url ="jdbc:mysql://localhost:3306/login?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
