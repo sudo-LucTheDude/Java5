@@ -46,15 +46,16 @@ public class Login extends Application  {
         btnLogin1.setOnAction(e -> {
 
             db.setUsername(txtUsername1.getText());
-            db.pw();
-            if(txtPassword1.getText().equals(db.getPassword())) {
+            String username = txtUsername1.getText();
+            String password = txtPassword1.getText();
+            Boolean dbCkeck = db.pw(username, password);
+            if(dbCkeck == true) {
                 window.setScene(scene2);
 
             }else{
                 layout1.add(lblFail1, 1,4);
             }
         });
-
 
         lblFail1 = new Label("Falsches Passwort");
         lblFail1.setFont(new Font(10));
@@ -102,8 +103,8 @@ public class Login extends Application  {
         TextField textField = new TextField ();
         layout2.add(lblTitle2,1,1);
         layout2.add(textArea, 1,2);
-        layout2.add(textField, 2, 3);
-        layout2.add(btnSend,8,8);
+        layout2.add(textField, 1, 3);
+        layout2.add(btnSend,1,4);
 
 
         window.setScene(scene1);
