@@ -24,7 +24,7 @@ public SwsClient(String name, String address, int port){
         socket = new DatagramSocket();
         running = true;
         listen();
-        send("\\con:"+name);
+        send("\\con:"+name); // \\con:lucas
 
     }catch(Exception e){
         e.printStackTrace();
