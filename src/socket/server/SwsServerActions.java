@@ -59,6 +59,7 @@ public class SwsServerActions{
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
                         //Nur normale nachrichten --> broadcasten
                         if(!srvCommand(message, packet)){
+                            System.out.print(message);
                             broadcast(message);
                         }
                     }
@@ -73,15 +74,26 @@ public class SwsServerActions{
         running = false;
     }
 
+
+
     private static boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
             //Name wird aus dem Commando gelesen
             String name = message.substring(message.indexOf(":")+1); //lucas
-
             //Neues ClientObjekt erstellen
             clients.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
             broadcast("Benutzer " + name + " ist online");
             return true;
+        }
+        else if(message.startsWith("\\dis:")){
+            String name = message.substring(message.indexOf(":")+1); //lucas
+            for(ClientInfos info : clients){
+                if(name.equals(info.getName())){
+                    broadcast("Benutzer " + info.getName() + " ist offline");
+                    clients.remove(info);
+                    return true;
+                }
+            }
         }
         return false;
     }

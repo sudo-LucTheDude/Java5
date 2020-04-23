@@ -2,6 +2,8 @@ package socket.client;
 
 import JavaFX.Login;
 import socket.server.ClientInfos;
+import socket.server.SwsServer;
+import socket.server.SwsServerActions;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -38,7 +40,7 @@ public void send(String message){
         byte[] data = message.getBytes(); //konvertiert String zu Byte[]
         DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
         socket.send(packet);
-        System.out.println("Nachricht an "+ address.getHostAddress() + ":"+port+" gesendet");
+        System.out.println("Nachricht an "+ address.getHostAddress() + ":"+port+" gesendet"); //dis=true
     }catch(Exception e){
         e.printStackTrace();
     }
@@ -51,7 +53,7 @@ public void send(String message){
                 try{
                     while(running){
                         byte[] data = new byte[1024]; //Byte Array wegen Datagram-Socket/Packet, in jedem Byte wird ein Char gespeichert
-                        DatagramPacket packet = new DatagramPacket(data, data.length); //DatagramPacket enhält viele MetaDaten, bspw. Absender usw.
+                        DatagramPacket packet = new DatagramPacket(data, data.length);
                         socket.receive(packet);
                         String message = new String(data);
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
@@ -68,6 +70,11 @@ public void send(String message){
     private boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
         return true;
+        }
+        else if(message.startsWith("\\dis:")){
+            Login.printConsole(message);
+            System.out.print(clients.size());
+            return true;
         }
         return false;
     }

@@ -43,10 +43,6 @@ public class Login extends Application  {
 
     private SwsClient client;
 
-    /*public Login(){
-        client = new SwsClient("HalloWelt","localhost", 2345);
-    }
-*/
 
     @Override
     public void start(Stage PrimaryStage) throws Exception {
@@ -124,7 +120,7 @@ public class Login extends Application  {
         layout1.add(lblPassword1,0,2);
         layout1.add(txtPassword1,1,2);
         layout1.add(btnLogin1,1,3);
-        //layout1.add(lblfail,1,4);
+
 
         //Scene 2
         TextField inputName = new TextField();
@@ -133,6 +129,7 @@ public class Login extends Application  {
         userLogout = new Button("Logout");
         userLogout.setOnAction(e->{
             client.send("\\dis:"+ userName);
+            System.out.println("\\dis:"+ userName);
         });
         outputArea = new TextArea();
 
