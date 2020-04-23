@@ -1,7 +1,6 @@
 package JavaFX;
 
 import Database.DBconnection;
-import com.sun.security.ntlm.Client;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import socket.client.SwsClient;
 import socket.server.ClientInfos;
@@ -30,15 +30,12 @@ public class Login extends Application  {
 
     Button btnSend;
     Label lblTitle2;
-    Label lblContent2;
     Stage window;
     Scene scene1,scene2;
-    static Label outputArea;
-    TextField inputField;
-    TextField inputName;
     String tmp;
     String userName;
     Button btnApplyName;
+    static TextArea outputArea;
 
     private SwsClient client;
 
@@ -72,7 +69,6 @@ public class Login extends Application  {
                 layout1.add(lblFail1, 1,4);
             }
         });
-
 
         lblFail1 = new Label("Falsches Passwort");
         lblFail1.setFont(new Font(10));
@@ -110,10 +106,10 @@ public class Login extends Application  {
         layout1.add(btnLogin1,1,3);
         //layout1.add(lblfail,1,4);
 
-
-        TextArea outputArea = new TextArea();
         TextField inputName = new TextField();
         TextField userInput = new TextField();
+        Label output = new Label();
+        outputArea = new TextArea();
         lblTitle2 = new Label("Schreibe eine Nachricht");
         lblTitle2.setFont(new Font(20));
         lblTitle2.setPadding(new Insets(10));
@@ -127,17 +123,17 @@ public class Login extends Application  {
         btnSend = new Button("Send");
         btnSend.setOnAction(e->{
             tmp = userInput.getText();
-            System.out.println(tmp);
+            tmp = userName + "; " + tmp;
             client.send(tmp);
             userInput.setText("");
         });
-        TextField inputField = new TextField ();
         layout2.add(lblTitle2,1,1);
         layout2.add(outputArea, 1,2);
         layout2.add(userInput, 1, 3);
         layout2.add(btnSend,1,8);
         layout2.add(inputName, 1, 9);
         layout2.add(btnApplyName,1,10);
+        layout2.add(output,1,11);
 
 
         window.setScene(scene2);
@@ -147,12 +143,12 @@ public class Login extends Application  {
     }
 
     public static void printConsole(String message){
-        //outputArea.setText(outputArea.getText()+message+"\n");
-
-
+       try{
+           outputArea.setText(outputArea.getText()+message+"\n");
+       }catch (Exception e){e.printStackTrace();}
 
     }
-//
+
     public static void main(String[] args) {
         launch(args);
     }

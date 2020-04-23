@@ -76,11 +76,10 @@ public class SwsServerActions{
     private static boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
             //Name wird aus dem Commando gelesen
-            String name = message.substring(message.indexOf(":")+1);
+            String name = message.substring(message.indexOf(":")+1); //lucas
 
             //Neues ClientObjekt erstellen
             clients.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
-            System.out.println("Test");
             broadcast("Benutzer " + name + " ist online");
             return true;
         }
