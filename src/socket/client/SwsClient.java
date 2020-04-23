@@ -1,16 +1,10 @@
 package socket.client;
 
 import JavaFX.Login;
-import socket.server.ClientInfos;
-import socket.server.SwsServer;
-import socket.server.SwsServerActions;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
-import static socket.server.SwsServerActions.broadcast;
-import static socket.server.SwsServerActions.clients;
 
 public class SwsClient {
 private DatagramSocket socket;
@@ -73,7 +67,6 @@ public void send(String message){
         }
         else if(message.startsWith("\\dis:")){
             Login.printConsole(message);
-            System.out.print(clients.size());
             return true;
         }
         return false;

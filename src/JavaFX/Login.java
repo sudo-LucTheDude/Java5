@@ -16,7 +16,6 @@ import socket.client.SwsClient;
 
 public class Login extends Application  {
 
-
     //layout1
     GridPane layout2;
     Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3 ;
