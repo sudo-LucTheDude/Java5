@@ -11,6 +11,7 @@ public class DBconnection {
 
     private String username = "test";
     private String password = "1234";
+
     private String url ="jdbc:mysql://localhost:3306/desicionmaker?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
     private String userDB = "root";
     private String passwordDB = "1234";
@@ -36,16 +37,10 @@ public class DBconnection {
                 dbanswer = result.getString("password");
             }
             System.out.println(dbanswer);
-
             if (dbanswer.equals(upw)){
                 return true;
             }
-            int col = result.getMetaData().getColumnCount();
-            while(result.next()){
-                for(int i = 1; i <= col; i++){
-                    setPassword(result.getString(i));
-                }
-            }
+
         }catch(SQLException ex){
             System.err.println(ex.getMessage());
         }

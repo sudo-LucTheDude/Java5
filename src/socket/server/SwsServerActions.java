@@ -39,7 +39,7 @@ public class SwsServerActions{
             byte[] data = message.getBytes(); //konvertiert String zu Byte[]
             DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
             socket.send(packet);
-            System.out.println("Nachricht an "+ address.getHostAddress() + ":"+port+" gesendet");
+            System.out.println("Nachricht " + message + " an "+ address.getHostAddress() + ":"+port+" gesendet");
         }catch(Exception e){
             e.printStackTrace();
         }
