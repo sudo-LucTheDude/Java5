@@ -100,7 +100,7 @@ public class Login extends Application  {
         layout1.add(lblPassword1,0,2);
         layout1.add(txtPassword1,1,2);
         layout1.add(btnLogin1,1,3);
-
+//
         //Scene 2
         TextField inputName = new TextField();
         TextField userInput = new TextField();
