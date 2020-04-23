@@ -18,15 +18,10 @@ public class DBconnection {
     private String dbanswer;
 
     public boolean pw(String username, String password){
-
-        Login lg = new Login();
         String uname = username;
         String upw = password;
-
         try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
-            System.out.println("Erfolgreich mit Datenbank verbunden!");
-
-            //Ausgeben
+            System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
             String query = "Select password from user where username ='" + uname +"'";
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(query);
@@ -38,8 +33,23 @@ public class DBconnection {
             }
             System.out.println(dbanswer);
             if (dbanswer.equals(upw)){
+                conn.close();
                 return true;
             }
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+        return false;
+    }
+    public boolean accountCreate(String username, String password){
+        String uname = username;
+        String upw = password;
+        try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
+            System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("insert into user (username, password) values ('" + uname + "', '" + upw + "')");
+            conn.close();
+            return true;
 
         }catch(SQLException ex){
             System.err.println(ex.getMessage());
