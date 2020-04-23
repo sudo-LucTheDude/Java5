@@ -133,10 +133,10 @@ public class Login extends Application  {
         layout2.add(btnSend,1,8);
         layout2.add(inputName, 1, 9);
         layout2.add(btnApplyName,1,10);
-        layout2.add(output,1,11);
+        layout2.add(output,1,11, 4,4);
 
 
-        window.setScene(scene2);
+        window.setScene(scene1);
         window.setTitle("SWS Messenger");
         window.show();
 
