@@ -4,11 +4,7 @@ import Database.DBconnection;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -280,7 +276,12 @@ public class Login extends Application  {
     }
 
     public static void main(String[] args) {
+
+        // funktioniert aktuell nur mit einem Client, anschliessend kommt ein Fehler
+        // SwsServerActions.start(1312);
+
         launch(args);
+
     }
 
     public void setUserName(String userName) {
