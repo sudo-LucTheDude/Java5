@@ -2,24 +2,26 @@ package socket.server;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SwsServerActions{
     //Static Variablen weil wegen nur einem Server
 
-    private static DatagramSocket socket; //(UDP-Socket)
+    private static DatagramSocket socketDatagram; //(UDP-Socket)
     private static int port;
-    private static boolean running;
-    public static ArrayList<ClientInfos> clients = new ArrayList<ClientInfos>();
+    private static boolean runningBoolean;
+    public static ArrayList<ClientInfos> clientsArrayList = new ArrayList<>();
     private static int clientID = 0;
 
     public static void start(int port){
     try{
-        socket = new DatagramSocket(port); //(UDP-Socket)
+        //InetAddress adresse = InetAddress.getLocalHost();
+        socketDatagram = new DatagramSocket(port); //(UDP-Socket)
         System.out.println("Server startet auf Port: " + port);
-        running = true;
+        InetAddress adr = socketDatagram.getInetAddress();
+        System.out.println("adresse ist " + adr);
+        runningBoolean = true;
         listen();
     }catch(Exception e){
         e.printStackTrace();
@@ -27,10 +29,9 @@ public class SwsServerActions{
     }
 
     public static void broadcast(String message){
-        for(ClientInfos info : clients){
+        for(ClientInfos info : clientsArrayList){
             send(message, info.getAddress(), info.getPort());
         }
-
     }
 
     public static void send(String message, InetAddress address, int port){
@@ -38,7 +39,7 @@ public class SwsServerActions{
             message += "\\e";
             byte[] data = message.getBytes(); //konvertiert String zu Byte[]
             DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
-            socket.send(packet);
+            socketDatagram.send(packet);
             System.out.println("Nachricht " + message + " an "+ address.getHostAddress() + ":"+port+" gesendet");
         }catch(Exception e){
             e.printStackTrace();
@@ -51,10 +52,10 @@ public class SwsServerActions{
             //run() wird für den Thread benötigt
             public void run(){
                 try{
-                    while(running){
+                    while(runningBoolean){
                         byte[] data = new byte[1024]; //Byte Array wegen Datagram-Socket/Packet, in jedem Byte wird ein Char gespeichert
                         DatagramPacket packet = new DatagramPacket(data, data.length); //DatagramPacket enhält viele MetaDaten, bspw. Absender usw.
-                        socket.receive(packet);
+                        socketDatagram.receive(packet);
                         String message = new String(data);
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
                         //Nur normale nachrichten --> broadcasten
@@ -71,31 +72,28 @@ public class SwsServerActions{
     }
 
     public static void stop(){
-        running = false;
+        runningBoolean = false;
     }
-
-
 
     private static boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
             //Name wird aus dem Commando gelesen
             String name = message.substring(message.indexOf(":")+1); //lucas
             //Neues ClientObjekt erstellen
-            clients.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
+            clientsArrayList.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
             broadcast("Benutzer " + name + " ist online");
             return true;
         }
         else if(message.startsWith("\\dis:")){
             String name = message.substring(message.indexOf(":")+1); //lucas
-            for(ClientInfos info : clients){
+            for(ClientInfos info : clientsArrayList){
                 if(name.equals(info.getName())){
                     broadcast("Benutzer " + info.getName() + " ist offline");
-                    clients.remove(info);
+                    clientsArrayList.remove(info);
                     return true;
                 }
             }
         }
         return false;
     }
-
 }

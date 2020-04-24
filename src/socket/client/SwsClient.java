@@ -1,7 +1,6 @@
 package socket.client;
 
 import JavaFX.Login;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -25,7 +24,6 @@ public SwsClient(String name, String address, int port){
     }catch(Exception e){
         e.printStackTrace();
     }
-
 }
 
 public void send(String message){
@@ -61,6 +59,7 @@ public void send(String message){
             }
         }; listenThread.start();
     }
+
     private boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
         return true;
