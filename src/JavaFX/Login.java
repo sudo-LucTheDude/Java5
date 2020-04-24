@@ -40,6 +40,7 @@ public class Login extends Application  {
     static TextArea userArea2;
     Label lblOnlineUsers2;
     Label lblSeperate2;
+    Label lblAccountCreated1;
 
     private SwsClient client;
 
@@ -109,7 +110,7 @@ public class Login extends Application  {
         btnSend2 = new Button("Send");
         btnSend2.setPadding(new Insets(10));
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
-        lblSeperate2 = new Label("-----------------------------------------");
+        lblSeperate2 = new Label("-------------------------------------------------------------------------------------------");
 
 
         layout2.add(outputArea2, 1,2);
@@ -204,7 +205,9 @@ public class Login extends Application  {
             String password32 = txtPassword32.getText();
             if(password31.equals(password32)){
                 db.accountCreate(username3, password31);
-                window.setScene(scene2);
+                lblAccountCreated1 = new Label("Der Account wurde erfolgreich erstellt!");
+                layout1.add(lblAccountCreated1, 1,5);
+                window.setScene(scene1);
             }
             else {
                 System.out.println("Passwörter stimmen nicht überein");
@@ -230,7 +233,7 @@ public class Login extends Application  {
     public static void printUsers(String user){
         try{
             user = user.substring(user.indexOf(":")+1);
-            userArea2.setText(userArea2.getText() + user + "\n");
+            userArea2.setText(userArea2.getText() + "-->   "+ user + "\n");
         }catch(Exception e){e.printStackTrace();}
 
     }
