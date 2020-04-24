@@ -1,15 +1,9 @@
 package socket.server;
 
-import Database.DBconnection;
-import JavaFX.Login;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.ArrayList;
-
-import static JavaFX.Login.printUsers;
 
 public class SwsServerActions{
 

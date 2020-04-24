@@ -18,18 +18,14 @@ public class Login extends Application  {
 
     //Alle Layout elemente
     Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2 ;
-    Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblFail1;
+    Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblFail1, lblSeperate2, lblOnlineUsers2, lblFail3;
     PasswordField txtPassword1, txtPassword31, txtPassword32;
-    TextField txtUsername1, txtUsername3;
+    TextField txtUsername1, txtUsername3, userInput2;
     Stage window;
     Scene scene1,scene2, scene3;
     String tmp, userName;
     static TextArea outputArea2;
     static TextArea userArea2;
-    Label lblOnlineUsers2;
-    Label lblSeperate2;
-    Label lblAccountCreated1;
-
     private SwsClient client;
 
     @Override
@@ -43,6 +39,7 @@ public class Login extends Application  {
         GridPane layout1 = new GridPane();
         scene1 = new Scene(layout1, 400,400);
         layout1.setPadding(new Insets(10));
+
         lblFail1 = new Label("Username oder Passwort falsch");
         lblFail1.setFont(new Font(10));
         lblFail1.setStyle("-fx-background-color: red");
@@ -85,23 +82,25 @@ public class Login extends Application  {
         GridPane layout2 = new GridPane();
         layout2.setPadding(new Insets(10));
         scene2 = new Scene(layout2, 500,600);
-        TextField userInput2 = new TextField();
-        userInput2.setPromptText("Nachricht eingeben");
-        btnUserLogout2 = new Button("Logout");
-        btnUserLogout2.setOnAction(e->{
-            client.send("\\dis:"+ userName);
-            client.stop();
-            PrimaryStage.close();
-        });
-        outputArea2 = new TextArea();
 
+        userInput2 = new TextField();
+        userInput2.setPromptText("Nachricht eingeben");
+
+        btnUserLogout2 = new Button("Logout");
+        btnUserLogout2.setFont(new Font(15));
+
+        outputArea2 = new TextArea();
         outputArea2.setEditable(false);
+
         userArea2 = new TextArea();
         userArea2.setEditable(false);
+
         btnSend2 = new Button("Send");
         btnSend2.setPadding(new Insets(10));
+
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
-        lblSeperate2 = new Label("-------------------------------------------------------------------------------------------");
+
+        lblSeperate2 = new Label("-------------------------------------------------------------------------------");
 
 
         //Elemente dem Layout 2 (MessengerScreen) hinzufügen
@@ -131,6 +130,10 @@ public class Login extends Application  {
 
         lblPassword32 = new Label("Nochmals Password");
         lblPassword32.setPadding(new Insets(10));
+
+        lblFail3 = new Label("Passwörter nicht gleich");
+        lblFail3.setFont(new Font(10));
+        lblFail3.setStyle("-fx-background-color: red");
 
         btnBack3 = new Button("Zurück");
         btnBack3.setFont(new Font(15));
@@ -162,11 +165,13 @@ public class Login extends Application  {
         layout3.add(btnRegister3, 1,4);
 
 
+
         window.setScene(scene1);
         window.setTitle("SWS Messenger");
         window.show();
 
-        //Diverse Button Action
+
+        //Diverse Button Actions
 
         //Loginbutton zum Einloggen (DB abfrage wird durchgeführt)
         btnLogin1.setOnAction(e -> {
@@ -183,6 +188,7 @@ public class Login extends Application  {
                 layout2.add(lblTitle2,1,1);
                 window.setScene(scene2);
             }else{
+                lblFail1.setVisible(true);
                 layout1.add(lblFail1, 1,5);
             }
         });
@@ -202,9 +208,23 @@ public class Login extends Application  {
         btnUserLogout2.setOnAction(e->{
             client.send("\\dis:"+ userName);
             System.out.println("\\dis:"+ userName);
+            client.stop();
             window.setScene(scene1);
+            lblFail1.setVisible(false);
             txtPassword1.setText("");
             txtPassword1.setPromptText("Password...");
+        });
+
+        //loggt den User aus bevor das Fenster manuell geschlossen wird
+        window.setOnCloseRequest(e ->{
+            try {
+                client.send("\\dis:"+ userName);
+                System.out.println("\\dis:"+ userName);
+                client.stop();
+            }catch (java.lang.NullPointerException exception){
+                window.close();
+            }
+
         });
 
         //Kehrt vom Registrierungsfenster zurück zum Login Screen
@@ -226,6 +246,7 @@ public class Login extends Application  {
             }
             else {
                 System.out.println("Passwörter stimmen nicht überein");
+                layout3.add(lblFail3, 1,6);
             }
         });
     }
@@ -236,7 +257,6 @@ public class Login extends Application  {
            if(message.startsWith("\\clear")){
                clearOnlineList();
            }
-
            else if(message.startsWith("\\user:")){
                printUsers(message);
            }
@@ -244,15 +264,17 @@ public class Login extends Application  {
            outputArea2.setText(outputArea2.getText()+message+"\n");
            }
        }catch (Exception e){e.printStackTrace();}
-
     }
+
+    //printet alle User die online sind aus
     public static void printUsers(String user){
         try{
             user = user.substring(user.indexOf(":")+1);
             userArea2.setText(userArea2.getText() + "-->   "+ user + "\n");
         }catch(Exception e){e.printStackTrace();}
-
     }
+
+    //löscht die Liste der Online User
     public static void clearOnlineList(){
         userArea2.setText("");
     }
@@ -261,9 +283,6 @@ public class Login extends Application  {
         launch(args);
     }
 
-    public String getUserName() {
-        return userName;
-    }
     public void setUserName(String userName) {
         this.userName = userName;
     }
