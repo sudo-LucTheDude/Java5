@@ -1,9 +1,8 @@
 package socket.server;
 
-import java.net.Inet4Address;
 import java.net.InetAddress;
 
-//Diese Klasse Seichert alle relevanten ClientInfos
+//Diese Klasse speichert alle relevanten ClientInfos
 public class ClientInfos {
 
     //Variabeldeklaration
@@ -19,7 +18,6 @@ public class ClientInfos {
         this.address = address;
         this.port = port;
     }
-
 
     // Getter und Setter
     public InetAddress getAddress() {
