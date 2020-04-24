@@ -1,11 +1,10 @@
 package Database;
-import JavaFX.Login;
 
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.ArrayList;
 
 public class DBconnection {
 
@@ -16,6 +15,26 @@ public class DBconnection {
     private String userDB = "root";
     private String passwordDB = "1234";
     private String dbanswer;
+/*
+    public static String getUsersDB(){
+        String url ="jdbc:mysql://localhost:3306/desicionmaker?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
+        String userDB = "root";
+        String passwordDB = "1234";
+        try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
+            System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
+            String query = "Select username from user";
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery(query);
+            int col = result.getMetaData().getColumnCount();
+
+            while (result.next()) {
+                    String allUsers = allUsers + String.format(result.getString("username"));
+            }
+
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+    }*/
 
     public boolean pw(String username, String password){
         String uname = username;
@@ -57,6 +76,7 @@ public class DBconnection {
         return false;
     }
 
+
     public String getUsername() {
         return username;
     }
@@ -72,4 +92,6 @@ public class DBconnection {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 }

@@ -69,7 +69,13 @@ public void send(String message){
             Login.printConsole(message);
             return true;
         }
+        else if(message.startsWith("\\clear:")){
+            return true;
+        }
         return false;
+    }
+    public void stop(){
+    running = false;
     }
 
 }

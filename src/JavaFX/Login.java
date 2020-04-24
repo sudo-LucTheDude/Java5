@@ -13,6 +13,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import socket.client.SwsClient;
+import socket.server.ClientInfos;
+import socket.server.SwsServerActions;
+import java.util.ArrayList;
+
+import static socket.server.SwsServerActions.clients;
 
 public class Login extends Application  {
 
@@ -32,6 +37,9 @@ public class Login extends Application  {
     String userName;
     Button userLogout2;
     static TextArea outputArea2;
+    static TextArea userArea2;
+    Label lblOnlineUsers2;
+    Label lblSeperate2;
 
     private SwsClient client;
 
@@ -91,19 +99,26 @@ public class Login extends Application  {
         userLogout2 = new Button("Logout");
         userLogout2.setOnAction(e->{
             client.send("\\dis:"+ userName);
-            System.out.println("\\dis:"+ userName);
+            client.stop();
+            PrimaryStage.close();
         });
         outputArea2 = new TextArea();
-
         outputArea2.setEditable(false);
+        userArea2 = new TextArea();
+        userArea2.setEditable(false);
         btnSend2 = new Button("Send");
         btnSend2.setPadding(new Insets(10));
+        lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
+        lblSeperate2 = new Label("-----------------------------------------");
+
 
         layout2.add(outputArea2, 1,2);
-        layout2.add(userInput2, 1, 3);
-        layout2.add(btnSend2,1,4);
-        layout2.add(userLogout2,1,6);
-
+        layout2.add(lblSeperate2,1,3);
+        layout2.add(userInput2, 1, 4);
+        layout2.add(btnSend2,1,5);
+        layout2.add(lblOnlineUsers2, 1, 6);
+        layout2.add(userArea2,1,7);
+        layout2.add(userLogout2,1,8);
 
         //Scene 3
         GridPane layout3 = new GridPane();
@@ -199,9 +214,28 @@ public class Login extends Application  {
 
     public static void printConsole(String message){
        try{
+           if(message.startsWith("\\clear")){
+               clearOnlineList();
+           }
+
+           else if(message.startsWith("\\user:")){
+               printUsers(message);
+           }
+           else{
            outputArea2.setText(outputArea2.getText()+message+"\n");
+           }
        }catch (Exception e){e.printStackTrace();}
 
+    }
+    public static void printUsers(String user){
+        try{
+            user = user.substring(user.indexOf(":")+1);
+            userArea2.setText(userArea2.getText() + user + "\n");
+        }catch(Exception e){e.printStackTrace();}
+
+    }
+    public static void clearOnlineList(){
+        userArea2.setText("");
     }
 
     public static void main(String[] args) {

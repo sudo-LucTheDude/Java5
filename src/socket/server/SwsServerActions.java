@@ -1,10 +1,15 @@
 package socket.server;
 
+import Database.DBconnection;
+import JavaFX.Login;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.ArrayList;
+
+import static JavaFX.Login.printUsers;
 
 public class SwsServerActions{
     //Static Variablen weil wegen nur einem Server
@@ -27,6 +32,8 @@ public class SwsServerActions{
     }
 
     public static void broadcast(String message){
+
+
         for(ClientInfos info : clients){
             send(message, info.getAddress(), info.getPort());
         }
@@ -83,6 +90,10 @@ public class SwsServerActions{
             //Neues ClientObjekt erstellen
             clients.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
             broadcast("Benutzer " + name + " ist online");
+            broadcast("\\clear");
+            for (ClientInfos user: clients) {
+                broadcast("\\user:" + user.getName());
+            }
             return true;
         }
         else if(message.startsWith("\\dis:")){
@@ -91,11 +102,18 @@ public class SwsServerActions{
                 if(name.equals(info.getName())){
                     broadcast("Benutzer " + info.getName() + " ist offline");
                     clients.remove(info);
+                    broadcast("\\clear");
+                    for (ClientInfos user: clients) {
+                        broadcast("\\user:" + user.getName());
+                    }
                     return true;
                 }
             }
         }
+
         return false;
     }
+
+
 
 }
