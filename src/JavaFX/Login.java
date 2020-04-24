@@ -14,13 +14,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import socket.client.SwsClient;
 
+import java.net.InetAddress;
+
 public class Login extends Application  {
 
     //Alle Layout elemente
     Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2 ;
     Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblFail1;
     PasswordField txtPassword1, txtPassword31, txtPassword32;
-    TextField txtUsername1, txtUsername3;
+    TextField txtUsername1, txtUsername3, userInput2;
     Stage window;
     Scene scene1,scene2, scene3;
     String tmp, userName;
@@ -29,6 +31,9 @@ public class Login extends Application  {
     Label lblOnlineUsers2;
     Label lblSeperate2;
     Label lblAccountCreated1;
+    TextField txtPort;
+    Button btnSendPrivat;
+
 
     private SwsClient client;
 
@@ -85,7 +90,7 @@ public class Login extends Application  {
         GridPane layout2 = new GridPane();
         layout2.setPadding(new Insets(10));
         scene2 = new Scene(layout2, 500,600);
-        TextField userInput2 = new TextField();
+        userInput2 = new TextField();
         userInput2.setPromptText("Nachricht eingeben");
         btnUserLogout2 = new Button("Logout");
         btnUserLogout2.setOnAction(e->{
@@ -102,6 +107,13 @@ public class Login extends Application  {
         btnSend2.setPadding(new Insets(10));
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
         lblSeperate2 = new Label("-------------------------------------------------------------------------------------------");
+        btnSendPrivat = new Button("Privatnachricht");
+        btnSendPrivat.setOnAction(e->{
+                privateM();
+                printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
+        });
+        txtPort = new TextField();
+        txtPort.setPromptText("ID eingeben");
 
 
         //Elemente dem Layout 2 (MessengerScreen) hinzufügen
@@ -109,9 +121,11 @@ public class Login extends Application  {
         layout2.add(lblSeperate2,1,3);
         layout2.add(userInput2, 1, 4);
         layout2.add(btnSend2,1,5);
-        layout2.add(lblOnlineUsers2, 1, 6);
-        layout2.add(userArea2,1,7);
-        layout2.add(btnUserLogout2,1,8);
+        layout2.add(txtPort,1,6);
+        layout2.add(btnSendPrivat,1,7);
+        layout2.add(lblOnlineUsers2, 1, 8);
+        layout2.add(userArea2,1,9);
+        layout2.add(btnUserLogout2,1,10);
 
 
         //Scene 3 (Registrierungs Fenster)
@@ -201,7 +215,6 @@ public class Login extends Application  {
         //Logout von Messenger, weiterleitung auf LoginScreen, gespeichertes Passwort wird gelöscht
         btnUserLogout2.setOnAction(e->{
             client.send("\\dis:"+ userName);
-            System.out.println("\\dis:"+ userName);
             window.setScene(scene1);
             txtPassword1.setText("");
             txtPassword1.setPromptText("Password...");
@@ -241,6 +254,7 @@ public class Login extends Application  {
                printUsers(message);
            }
            else{
+               System.out.print(message);
            outputArea2.setText(outputArea2.getText()+message+"\n");
            }
        }catch (Exception e){e.printStackTrace();}
@@ -267,6 +281,16 @@ public class Login extends Application  {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+    private void privateM(){
+        try{
 
+            String message = userInput2.getText();
+            message = "\\priv:"+txtPort.getText()+"::"+message;
+            client.send(message);
+        }catch(Exception e2){
+            System.out.print("Das war kein gültiger Port");
+            e2.printStackTrace();
+        }
+    }
 
 }

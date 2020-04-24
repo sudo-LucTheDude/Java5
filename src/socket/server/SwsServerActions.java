@@ -9,12 +9,13 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import static JavaFX.Login.printConsole;
 import static JavaFX.Login.printUsers;
 
 public class SwsServerActions{
 
     //Static Variablen weil wegen nur einem Server
-    private static DatagramSocket socketDatagram; //(UDP-Socket)
+    public static DatagramSocket socketDatagram; //(UDP-Socket)
     private static int port;
     private static boolean runningBoolean;
     public static ArrayList<ClientInfos> clientsArrayList = new ArrayList<>();
@@ -25,8 +26,6 @@ public class SwsServerActions{
         //InetAddress adresse = InetAddress.getLocalHost();
         socketDatagram = new DatagramSocket(port); //(UDP-Socket)
         System.out.println("Server startet auf Port: " + port);
-        InetAddress adr = socketDatagram.getInetAddress();
-        System.out.println("adresse ist " + adr);
         runningBoolean = true;
         listen();
     }catch(Exception e){
@@ -35,6 +34,7 @@ public class SwsServerActions{
     }
     //Nachricht wird an jeden User geschickt
     public static void broadcast(String message){
+        System.out.println("Boadcast");
         for(ClientInfos info : clientsArrayList){
             send(message, info.getAddress(), info.getPort());
         }
@@ -53,6 +53,26 @@ public class SwsServerActions{
             e.printStackTrace();
         }
     }
+
+    private static void privateSend(String message){
+        try{
+            String id = message.substring(6,7);
+            System.out.print(id);
+            int destId = Integer.parseInt(id);
+
+            for(ClientInfos info : clientsArrayList){
+                int i = 0;
+                if(destId == info.getId()) {
+                    message = message.substring(9);
+                    message = "Privat: " + message;
+                    send(message, info.getAddress(), info.getPort());
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private static void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen, da immer auf neue Nachrichten gewartet wird (While)
         {
@@ -67,8 +87,9 @@ public class SwsServerActions{
                         message = message.substring(0, message.indexOf("\\e")); //\\e markiert die Letzte !Null stelle des dataArrays
                         //Nur normale nachrichten --> broadcasten, Server Befehle werden im srvCommand weiterverarbeitet
                         if(!srvCommand(message, packet)){
-                            System.out.print(message);
+                            //if(!(message.startsWith("\\priv:"))){
                             broadcast(message);
+                            //}
                         }
                     }
                 }catch(Exception e){
@@ -77,6 +98,7 @@ public class SwsServerActions{
             }
     }; listenThread.start();
     }
+
     //ServerCommand Kürzel steht immer vor der Nachricht , \\dis: = verbindung getrennt, \\con: online
     //Die Commands \\clear & \\user werden erst im Login.printConsole interpretiert
     private static boolean srvCommand(String message, DatagramPacket packet){
@@ -89,7 +111,7 @@ public class SwsServerActions{
             //Aktualisiert Onlineliste im GUI
             broadcast("\\clear");
             for (ClientInfos user: clientsArrayList) {
-                broadcast("\\user:" + user.getName());
+                broadcast("\\user:" + user.getName() + " erreichbar über ID: " + user.getId());
             }
             return true;
         }
@@ -103,11 +125,15 @@ public class SwsServerActions{
                     //Aktualisiert Onlineliste im GUI
                     broadcast("\\clear");
                     for (ClientInfos user: clientsArrayList) {
-                        broadcast("\\user:" + user.getName());
+                        broadcast("\\user:" + user.getName() + " erreichbar über ID: " + user.getId());
                     }
                     return true;
                 }
             }
+        }
+        else if(message.startsWith("\\priv:")){
+            privateSend(message);
+            return true;
         }
         return false;
     }
@@ -115,5 +141,7 @@ public class SwsServerActions{
     public static void stop(){
         runningBoolean = false;
     }
+
+
 }
 
