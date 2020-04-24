@@ -5,13 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+
+//Diese Klass Enthält fast die gliechen Methoden wie die SwsServerActions nur das sie nicht static sind
 public class SwsClient {
-private DatagramSocket socket;
-private InetAddress address;
-private int port;
-private boolean running;
-//Name Eingeben
-    //Client
+
+        private DatagramSocket socket;
+        private InetAddress address;
+        private int port;
+        private boolean running;
+
 public SwsClient(String name, String address, int port){
     try {
         this.address = InetAddress.getByName(address); //Convertiert String-->InetAddress
@@ -19,13 +21,13 @@ public SwsClient(String name, String address, int port){
         socket = new DatagramSocket();
         running = true;
         listen();
-        send("\\con:"+name); // \\con:lucas
-
+        //Zeigt allen Benutzer das man nun Online ist
+        send("\\con:"+name);
     }catch(Exception e){
         e.printStackTrace();
     }
 }
-
+//
 public void send(String message){
     try{
         message += "\\e";
@@ -73,8 +75,8 @@ public void send(String message){
         }
         return false;
     }
+
     public void stop(){
     running = false;
     }
-
 }
