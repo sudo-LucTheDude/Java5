@@ -15,7 +15,7 @@ import static JavaFX.Login.printUsers;
 public class SwsServerActions{
 
     //Static Variablen weil wegen nur einem Server
-    public static DatagramSocket socketDatagram; //(UDP-Socket)
+    private static DatagramSocket socketDatagram; //(UDP-Socket)
     private static int port;
     private static boolean runningBoolean;
     public static ArrayList<ClientInfos> clientsArrayList = new ArrayList<>();
@@ -26,6 +26,8 @@ public class SwsServerActions{
         //InetAddress adresse = InetAddress.getLocalHost();
         socketDatagram = new DatagramSocket(port); //(UDP-Socket)
         System.out.println("Server startet auf Port: " + port);
+        InetAddress adr = socketDatagram.getInetAddress();
+        System.out.println("adresse ist " + adr);
         runningBoolean = true;
         listen();
     }catch(Exception e){
@@ -34,7 +36,6 @@ public class SwsServerActions{
     }
     //Nachricht wird an jeden User geschickt
     public static void broadcast(String message){
-        System.out.println("Boadcast");
         for(ClientInfos info : clientsArrayList){
             send(message, info.getAddress(), info.getPort());
         }

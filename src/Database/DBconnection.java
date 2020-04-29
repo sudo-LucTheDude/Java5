@@ -1,18 +1,12 @@
 package Database;
-import JavaFX.Login;
-
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
 
 public class DBconnection {
 
     private String username = "test";
     private String password = "1234";
 
-    private String url ="jdbc:mysql://localhost:3306/desicionmaker?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
+    private String url ="jdbc:mysql://localhost:3306/SWSMessenger?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
     private String userDB = "root";
     private String passwordDB = "1234";
     private String dbanswer;
