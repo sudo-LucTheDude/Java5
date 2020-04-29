@@ -1,16 +1,9 @@
 package socket.server;
 
-import Database.DBconnection;
-import JavaFX.Login;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.ArrayList;
-
-import static JavaFX.Login.printConsole;
-import static JavaFX.Login.printUsers;
 
 public class SwsServerActions{
 
@@ -65,7 +58,7 @@ public class SwsServerActions{
                 int i = 0;
                 if(destId == info.getId()) {
                     message = message.substring(9);
-                    message = "Privat: " + message;
+                    message = "(Privat) " + message;
                     send(message, info.getAddress(), info.getPort());
                 }
             }

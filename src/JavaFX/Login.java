@@ -4,17 +4,11 @@ import Database.DBconnection;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import socket.client.SwsClient;
-
-import java.net.InetAddress;
 
 public class Login extends Application  {
 
@@ -113,12 +107,11 @@ public class Login extends Application  {
         lblSeperate2 = new Label("-------------------------------------------------------------------------------------------");
         btnSendPrivat = new Button("Privatnachricht");
         btnSendPrivat.setOnAction(e->{
-                privateM();
+                privateMessage();
                 printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
         });
         txtPort = new TextField();
         txtPort.setPromptText("ID eingeben");
-
 
         //Elemente dem Layout 2 (MessengerScreen) hinzufügen
         layout2.add(outputArea2, 1,2);
@@ -130,7 +123,6 @@ public class Login extends Application  {
         layout2.add(lblOnlineUsers2, 1, 8);
         layout2.add(userArea2,1,9);
         layout2.add(btnUserLogout2,1,10);
-
 
         //Scene 3 (Registrierungs Fenster)
         GridPane layout3 = new GridPane();
@@ -182,7 +174,6 @@ public class Login extends Application  {
         layout3.add(txtPassword32,1,3);
         layout3.add(btnBack3,1,5);
         layout3.add(btnRegister3, 1,4);
-
 
         window.setScene(scene1);
         window.setTitle("SWS Messenger");
@@ -242,7 +233,6 @@ public class Login extends Application  {
             }catch (java.lang.NullPointerException exception){
                 window.close();
             }
-
         });
 
         //Kehrt vom Registrierungsfenster zurück zum Login Screen
@@ -314,10 +304,9 @@ public class Login extends Application  {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    private void privateM(){
+    private void privateMessage(){
         try{
-
-            String message = userInput2.getText();
+            String message = "von User " + userName + ": " +userInput2.getText();
             message = "\\priv:"+txtPort.getText()+"::"+message;
             client.send(message);
         }catch(Exception e2){
@@ -325,5 +314,4 @@ public class Login extends Application  {
             e2.printStackTrace();
         }
     }
-
 }
