@@ -43,20 +43,7 @@ public class SwsClient {
                 e.printStackTrace();
             }
         }
-        /*public void sendPrivate(String message, String id){
-            try{
-                message = "\\priv:" +id + "::" + message + "\\e" ;
-                byte[] data = message.getBytes(); //konvertiert String zu Byte[]
-                DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
-                System.out.print("SWSCz51" + address+ port);
-                System.out.println("versucht Nachricht an "+ address + ":"+ port +" gesendet");
-                socket.send(packet);
-                System.out.println("Nachricht an "+ address + ":"+port+" gesendet"); //dis=true
-            }catch(Exception e){
-                e.printStackTrace();
-            }
 
-}*/
     private void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen
         {
