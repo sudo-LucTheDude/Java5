@@ -1,14 +1,16 @@
 package socket.client;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SwsClientTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void send() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void stop() {
     }
 }

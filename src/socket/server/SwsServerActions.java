@@ -66,7 +66,6 @@ public class SwsServerActions{
             e.printStackTrace();
         }
     }
-
     private static void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen, da immer auf neue Nachrichten gewartet wird (While)
         {
@@ -131,11 +130,8 @@ public class SwsServerActions{
         }
         return false;
     }
-
     public static void stop(){
         runningBoolean = false;
     }
-
-
 }
 

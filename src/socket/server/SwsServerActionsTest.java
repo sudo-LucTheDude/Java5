@@ -2,21 +2,21 @@ package socket.server;
 
 import org.junit.jupiter.api.Test;
 
-class ClientInfosTest {
+class SwsServerActionsTest {
 
     @Test
-    void getAddress() {
+    void start() {
     }
 
     @Test
-    void getPort() {
+    void broadcast() {
     }
 
     @Test
-    void getName() {
+    void send() {
     }
 
     @Test
-    void getId() {
+    void stop() {
     }
 }

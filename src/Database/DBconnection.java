@@ -11,7 +11,7 @@ public class DBconnection {
     private String passwordDB = "1234";
     private String dbanswer;
 
-    public boolean pw(String username, String password){
+    public boolean passWordValidator(String username, String password){
         String uname = username;
         String upw = password;
 

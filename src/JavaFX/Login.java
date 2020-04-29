@@ -28,7 +28,7 @@ public class Login extends Application  {
     private SwsClient client;
 
     @Override
-    public void start(Stage PrimaryStage) throws Exception {
+    public void start(Stage PrimaryStage) {
         DBconnection db = new DBconnection();
 
         //Mainstage
@@ -38,10 +38,6 @@ public class Login extends Application  {
         GridPane layout1 = new GridPane();
         scene1 = new Scene(layout1, 400,400);
         layout1.setPadding(new Insets(10));
-
-        lblFail1 = new Label("Username oder Passwort falsch");
-        lblFail1.setFont(new Font(10));
-        lblFail1.setStyle("-fx-background-color: red");
 
         lblTitle1 = new Label("Loginformular");
         lblTitle1.setFont(new Font(20));
@@ -64,6 +60,11 @@ public class Login extends Application  {
         btnLogin1 = new Button("Login");
         btnLogin1.setFont(new Font(15));
 
+        lblFail1 = new Label("Username oder Passwort falsch");
+        lblFail1.setFont(new Font(10));
+        lblFail1.setStyle("-fx-background-color: red");
+
+
         btnRegister1 = new Button("Registrieren");
         btnRegister1.setFont(new Font(15));
 
@@ -83,6 +84,7 @@ public class Login extends Application  {
         layout1.add(btnLogin1,1,5);
         layout1.add(lblSeperate13,1,6);
         layout1.add(btnRegister1,1,7);
+        layout1.add(lblFail1, 1,8);
 
 
         //Scene 2 (Messenger Fenster)
@@ -194,7 +196,7 @@ public class Login extends Application  {
             //db.setUsername(txtUsername1.getText());
             String username = txtUsername1.getText();
             String password = txtPassword1.getText();
-            Boolean dbCkeck = db.pw(username, password);
+            Boolean dbCkeck = db.passWordValidator(username, password);
             if(dbCkeck) {
                 setUserName(username);
                 client = new SwsClient(username, "localhost", 1312);
@@ -205,7 +207,7 @@ public class Login extends Application  {
                 window.setScene(scene2);
             }else{
                 lblFail1.setVisible(true);
-                layout1.add(lblFail1, 1,5);
+
             }
         });
 
