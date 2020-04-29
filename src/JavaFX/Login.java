@@ -13,18 +13,16 @@ import socket.client.SwsClient;
 public class Login extends Application  {
 
     //Alle Layout elemente
-    Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2 ;
-    Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblFail1, lblSeperate2, lblOnlineUsers2, lblFail3;
+    Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2, btnSendPrivat2 ;
+    Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblSeperate13, lblFail1,lblSeperate11, lblSeperate12, lblSeperate2, lblOnlineUsers2, lblFail3;
     PasswordField txtPassword1, txtPassword31, txtPassword32;
-    TextField txtUsername1, txtUsername3, userInput2;
+    TextField txtUsername1, txtUsername3, userInput2, txtPort;
     Stage window;
     Scene scene1,scene2, scene3;
     String tmp, userName;
     static TextArea outputArea2;
     static TextArea userArea2;
     Label lblAccountCreated1;
-    TextField txtPort;
-    Button btnSendPrivat;
 
 
     private SwsClient client;
@@ -69,14 +67,22 @@ public class Login extends Application  {
         btnRegister1 = new Button("Registrieren");
         btnRegister1.setFont(new Font(15));
 
+        lblSeperate11 = new Label("");
+        lblSeperate12 = new Label("");
+        lblSeperate13 = new Label("");
+
         //Elemente dem Layout 1 (Loginscreen) hinzufügen
-        layout1.add(btnRegister1, 1,4);
+
         layout1.add(lblTitle1 ,0,0, 2,1);
         layout1.add(lblUsername1,0,1);
         layout1.add(txtUsername1,1,1);
-        layout1.add(lblPassword1,0,2);
-        layout1.add(txtPassword1,1,2);
-        layout1.add(btnLogin1,1,3);
+        layout1.add(lblSeperate11,0,2);
+        layout1.add(lblPassword1,0,3);
+        layout1.add(txtPassword1,1,3);
+        layout1.add(lblSeperate12,1,4);
+        layout1.add(btnLogin1,1,5);
+        layout1.add(lblSeperate13,1,6);
+        layout1.add(btnRegister1,1,7);
 
 
         //Scene 2 (Messenger Fenster)
@@ -104,9 +110,10 @@ public class Login extends Application  {
         btnSend2.setPadding(new Insets(10));
 
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
-        lblSeperate2 = new Label("-------------------------------------------------------------------------------------------");
-        btnSendPrivat = new Button("Privatnachricht");
-        btnSendPrivat.setOnAction(e->{
+        lblSeperate2 = new Label("");
+        btnSendPrivat2 = new Button("Privatnachricht");
+        btnSendPrivat2.setPadding(new Insets(10));
+        btnSendPrivat2.setOnAction(e->{
                 privateMessage();
                 printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
         });
@@ -119,7 +126,7 @@ public class Login extends Application  {
         layout2.add(userInput2, 1, 4);
         layout2.add(btnSend2,1,5);
         layout2.add(txtPort,1,6);
-        layout2.add(btnSendPrivat,1,7);
+        layout2.add(btnSendPrivat2,1,7);
         layout2.add(lblOnlineUsers2, 1, 8);
         layout2.add(userArea2,1,9);
         layout2.add(btnUserLogout2,1,10);
