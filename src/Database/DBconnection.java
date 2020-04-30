@@ -11,11 +11,19 @@ public class DBconnection {
     private String passwordDB = "1234";
     private String dbanswer;
 
+    /**
+     * verifiziert das passwort zum eingegebenen Username
+     * @param username
+     * @param password
+     * @return boolean
+     */
     public boolean passWordValidator(String username, String password) {
         String uname = username;
         String upw = password;
 
-        //es wird versucht eine DB Verbindung herzustellen, falls dies nicht möglich ist wird dies gecatcht.
+        /**
+         * Es wird versucht eine DB Verbindung herzustellen. Falls dies nicht möglich ist, wird dies gecatcht.
+         */
         try (Connection conn = DriverManager.getConnection(url, userDB, passwordDB)) {
             System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
             String query = "Select password from user where username ='" + uname + "'";
@@ -26,8 +34,12 @@ public class DBconnection {
             while (result.next()) {
                 dbanswer = result.getString("password");
             }
-            //falls Username existiert und ein passwort von der DB zurück kommt wird dieses im "try" verglichen.
-            //falls Username nicht existiert haben wir keine antwort, dies würde in einer nullPointerException resultieren, welche gecatcht wird.
+            /**
+             * Falls der Username existiert und ein Passwort von der DB zurück kommt wird
+             * dieses im "try" verglichen.
+             * falls Username nicht existiert haben wir keine antwort, dies würde in
+             * einer nullPointerException resultieren, welche gecatcht wird
+             */
             try {
                 if (dbanswer.equals(upw)) {
                     conn.close();
@@ -44,7 +56,12 @@ public class DBconnection {
         }
     }
 
-    //es wird ein neuer Account in der Datenbank angelegt
+    /**
+     * es wird ein neuer Account in der Datenbank angelegt
+     * @param username
+     * @param password
+     * @return boolean
+     */
     public boolean accountCreate(String username, String password) {
         String newusername = username;
         String newpassword = password;

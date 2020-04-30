@@ -15,6 +15,12 @@ public class ClientBackEnd {
         private int port;
         private boolean running;
 
+    /**
+     * Erstellt einen neuen User im Backend
+     * @param name
+     * @param address
+     * @param port
+     */
     public ClientBackEnd(String name, String address, int port){
             try {
                 this.address = InetAddress.getByName(address); //Convertiert String-->InetAddress
@@ -28,7 +34,11 @@ public class ClientBackEnd {
                 e.printStackTrace();
             }
         }
-        //Nachricht Senden
+
+    /**
+     * Nachricht Senden
+     * @param message
+     */
         public void send(String message){
             try{
                 message += "\\e";
@@ -41,6 +51,9 @@ public class ClientBackEnd {
             }
         }
 
+    /**
+     * Listen Thread der ständig horcht ob neue Befehle oder nachrichten kommen
+     */
     private void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen
         {
@@ -64,6 +77,12 @@ public class ClientBackEnd {
         }; listenThread.start();
     }
 
+    /**
+     * Überprüft ob eine Nachricht ein Befehl ist. Wen ja ist return true, sonst false.
+     * @param message
+     * @param packet
+     * @return
+     */
     private boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
         return true;
@@ -79,6 +98,9 @@ public class ClientBackEnd {
         return false;
     }
 
+    /**
+     * Stopt den Thread
+     */
     public void stop(){
     running = false;
     }
