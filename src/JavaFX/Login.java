@@ -273,7 +273,6 @@ public class Login extends Application  {
            if(message.startsWith("\\clear")){
                clearOnlineList();
            }
-
            else if(message.startsWith("\\user:")){
                printUsers(message);
            }
@@ -299,9 +298,6 @@ public class Login extends Application  {
     }
 
     public static void main(String[] args) {
-
-        // funktioniert aktuell nur mit einem Client, anschliessend kommt ein Fehler
-        // SwsServerActions.start(1312);
 
         launch(args);
     }

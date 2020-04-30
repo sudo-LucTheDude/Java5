@@ -1,18 +1,16 @@
 package socket.client;
 
 import JavaFX.Login;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
-import static java.net.InetAddress.getLoopbackAddress;
 
 
 //Diese Klass Enthält fast die gliechen Methoden wie die SwsServerActions nur das sie nicht static sind
 public class SwsClient {
 
         private DatagramSocket socket;
-        private  static DatagramSocket socket2;
         private InetAddress address;
         private int port;
         private boolean running;
@@ -30,7 +28,7 @@ public class SwsClient {
                 e.printStackTrace();
             }
         }
-        //
+        //Nachricht Senden
         public void send(String message){
             try{
                 message += "\\e";
