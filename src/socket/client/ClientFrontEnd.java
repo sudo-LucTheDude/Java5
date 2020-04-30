@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import socket.client.ClientFrontEnd;
 
 public class ClientFrontEnd extends Application  {
 
@@ -36,7 +35,7 @@ public class ClientFrontEnd extends Application  {
 
         //Scene 1 (Login Fenster)
         GridPane layout1 = new GridPane();
-        scene1 = new Scene(layout1, 400,400);
+        scene1 = new Scene(layout1, 550,550);
         layout1.setPadding(new Insets(10));
 
         lblTitle1 = new Label("Loginformular");
@@ -61,7 +60,8 @@ public class ClientFrontEnd extends Application  {
         btnLogin1.setFont(new Font(15));
 
         lblFail1 = new Label("Username oder Passwort falsch");
-        lblFail1.setFont(new Font(10));
+        lblFail1.setFont(new Font(15));
+        lblFail1.setPadding(new Insets(10));
         lblFail1.setStyle("-fx-background-color: red");
 
 
@@ -97,7 +97,7 @@ public class ClientFrontEnd extends Application  {
         //Scene 2 (Messenger Fenster)
         GridPane layout2 = new GridPane();
         layout2.setPadding(new Insets(10));
-        scene2 = new Scene(layout2, 500,600);
+        scene2 = new Scene(layout2, 550,550);
 
         userInput2 = new TextField();
         userInput2.setPromptText("Nachricht eingeben");
@@ -140,7 +140,7 @@ public class ClientFrontEnd extends Application  {
         //Scene 3 (Registrierungs Fenster)
         GridPane layout3 = new GridPane();
         layout3.setPadding(new Insets(10));
-        scene3 = new Scene(layout3, 400,400);
+        scene3 = new Scene(layout3, 550,550);
 
         lblTitle3 = new Label("Registrierung");
         lblTitle3.setFont(new Font(20));
@@ -192,7 +192,7 @@ public class ClientFrontEnd extends Application  {
         //Scene 4 (Registrierungs Fenster)
         GridPane layout4 = new GridPane();
         layout4.setPadding(new Insets(10));
-        scene4 = new Scene(layout4, 600,600);
+        scene4 = new Scene(layout4, 550,550);
 
         lblAnleitung4 = new Label("1. Erstelle dir einen Account\n" +
                 "2. Logge dich im Login-Fenster ein\n" +
