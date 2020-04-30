@@ -22,7 +22,6 @@ public class Login extends Application  {
     String tmp, userName;
     static TextArea outputArea2;
     static TextArea userArea2;
-    Label lblAccountCreated1;
 
 
     private SwsClient client;
@@ -91,18 +90,14 @@ public class Login extends Application  {
         GridPane layout2 = new GridPane();
         layout2.setPadding(new Insets(10));
         scene2 = new Scene(layout2, 500,600);
-        userInput2 = new TextField();
 
+        userInput2 = new TextField();
         userInput2.setPromptText("Nachricht eingeben");
 
         btnUserLogout2 = new Button("Logout");
-        btnUserLogout2.setOnAction(e->{
-            client.send("\\dis:"+ userName);
-            client.stop();
-            PrimaryStage.close();
-        });
-        outputArea2 = new TextArea();
+        btnUserLogout2.setPadding(new Insets(10));
 
+        outputArea2 = new TextArea();
         outputArea2.setEditable(false);
 
         userArea2 = new TextArea();
@@ -115,10 +110,7 @@ public class Login extends Application  {
         lblSeperate2 = new Label("");
         btnSendPrivat2 = new Button("Privatnachricht");
         btnSendPrivat2.setPadding(new Insets(10));
-        btnSendPrivat2.setOnAction(e->{
-                privateMessage();
-                printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
-        });
+
         txtPort = new TextField();
         txtPort.setPromptText("ID eingeben");
 
@@ -154,6 +146,7 @@ public class Login extends Application  {
         lblFail3 = new Label("Passwörter nicht gleich");
         lblFail3.setFont(new Font(10));
         lblFail3.setStyle("-fx-background-color: red");
+        lblFail1.setVisible(false);
 
         btnBack3 = new Button("Zurück");
         btnBack3.setFont(new Font(15));
@@ -211,6 +204,12 @@ public class Login extends Application  {
             }
         });
 
+        //Private Nachricht wird versendet
+        btnSendPrivat2.setOnAction(e->{
+            privateMessage();
+            printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
+        });
+
         //Registrierungsfenster wird geöffent
         btnRegister1.setOnAction(e -> window.setScene(scene3));
 
@@ -221,6 +220,7 @@ public class Login extends Application  {
             client.send(tmp);
             userInput2.setText("");
         });
+
 
         //Logout von Messenger, weiterleitung auf LoginScreen, gespeichertes Passwort wird gelöscht
         btnUserLogout2.setOnAction(e->{

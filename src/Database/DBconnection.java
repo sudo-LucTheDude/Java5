@@ -6,19 +6,19 @@ public class DBconnection {
     private String username = "test";
     private String password = "1234";
 
-    private String url ="jdbc:mysql://localhost:3306/SWSMessenger?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
+    private String url = "jdbc:mysql://localhost:3306/SWSMessenger?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin";
     private String userDB = "root";
     private String passwordDB = "1234";
     private String dbanswer;
 
-    public boolean passWordValidator(String username, String password){
+    public boolean passWordValidator(String username, String password) {
         String uname = username;
         String upw = password;
 
         //es wird versucht eine DB Verbindung herzustellen, falls dies nicht möglich ist wird dies gecatcht.
-        try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
+        try (Connection conn = DriverManager.getConnection(url, userDB, passwordDB)) {
             System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
-            String query = "Select password from user where username ='" + uname +"'";
+            String query = "Select password from user where username ='" + uname + "'";
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(query);
 
@@ -29,56 +29,40 @@ public class DBconnection {
             //falls Username existiert und ein passwort von der DB zurück kommt wird dieses im "try" verglichen.
             //falls Username nicht existiert haben wir keine antwort, dies würde in einer nullPointerException resultieren, welche gecatcht wird.
             try {
-                if (dbanswer.equals(upw)){
+                if (dbanswer.equals(upw)) {
                     System.out.println(dbanswer);
                     conn.close();
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
-            }
-            catch (java.lang.NullPointerException exception){
+            } catch (java.lang.NullPointerException exception) {
                 return false;
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             return false;
         }
     }
+
     //es wird ein neuer Account in der Datenbank angelegt
-    public boolean accountCreate(String username, String password){
+    public boolean accountCreate(String username, String password) {
         String newusername = username;
         String newpassword = password;
 
         //es wird versucht eine DB verbindung aufzubauen
-        try(Connection conn = DriverManager.getConnection(url,userDB,passwordDB)){
+        try (Connection conn = DriverManager.getConnection(url, userDB, passwordDB)) {
             System.out.println("Erfolgreich mit Datenbank verbunden!"); //Ausgeben
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("insert into user (username, password) values ('" + newusername + "', '" + newpassword + "')");
             conn.close();
             return true;
 
-        //falls die verbindung nicht aufgebaut werden kann wird dies gecatcht
-        }catch(SQLException ex){
+            //falls die verbindung nicht aufgebaut werden kann wird dies gecatcht
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
         return false;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    //public void setUsername(String username) {
-    //    this.username = username;
-    //}
 }
