@@ -20,6 +20,7 @@ public class ClientFrontEnd extends Application  {
     Stage window;
     Scene scene1,scene2, scene3;
     String tmp, userName;
+    Tooltip ttPrivateMessage2, ttSend2, ttRegister1, ttHelp2;
     static TextArea outputArea2;
     static TextArea userArea2;
 
@@ -66,6 +67,8 @@ public class ClientFrontEnd extends Application  {
 
         btnRegister1 = new Button("Registrieren");
         btnRegister1.setFont(new Font(15));
+        ttRegister1 = new Tooltip("Falls du noch keinen Account hast, kannst du dich hier registrieren");
+        btnRegister1.setTooltip(ttRegister1);
 
         lblSeperate11 = new Label("");
         lblSeperate12 = new Label("");
@@ -105,11 +108,15 @@ public class ClientFrontEnd extends Application  {
 
         btnSend2 = new Button("Send");
         btnSend2.setPadding(new Insets(10));
+        ttSend2 = new Tooltip("Nachticht eingeben und auf 'Send' drücken, ACHTUNG, Nachricht geht an ALLE!");
+        btnSend2.setTooltip(ttSend2);
 
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
         lblSeperate2 = new Label("");
         btnSendPrivat2 = new Button("Privatnachricht");
         btnSendPrivat2.setPadding(new Insets(10));
+        ttPrivateMessage2 = new Tooltip("Funktionsweise: 1. BenutzerID eingeben, 2. Nachricht verfassen, 3. Auf 'Privatnachricht' drücken");
+        btnSendPrivat2.setTooltip(ttPrivateMessage2);
 
         txtPort = new TextField();
         txtPort.setPromptText("ID eingeben");
@@ -207,7 +214,7 @@ public class ClientFrontEnd extends Application  {
         //Private Nachricht wird versendet
         btnSendPrivat2.setOnAction(e->{
             privateMessage();
-            printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
+
         });
 
         //Registrierungsfenster wird geöffent
@@ -267,6 +274,12 @@ public class ClientFrontEnd extends Application  {
         });
     }
 
+    /**
+     *
+     * @param message
+     */
+
+
     //Nachricht wird im Messenger ausgegeben
     public static void printConsole(String message){
        try{
@@ -311,11 +324,13 @@ public class ClientFrontEnd extends Application  {
     }
     private void privateMessage(){
         try{
+            int port = Integer.parseInt(txtPort.getText());
             String message = "von User " + userName + ": " +userInput2.getText();
-            message = "\\priv:"+txtPort.getText()+"::"+message;
+            message = "\\priv:"+port+"::"+message;
             client.send(message);
+            printConsole("Du an ID " + txtPort.getText()+ " :" +userInput2.getText());
         }catch(Exception e2){
-            System.out.print("Das war kein gültiger Port");
+            printConsole("                   <---!! UNGÜLTIGER ID - SENDEN FEHLGESCHAGEN !!--->" );
             e2.printStackTrace();
         }
     }
