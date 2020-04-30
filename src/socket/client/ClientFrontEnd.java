@@ -8,22 +8,19 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import socket.client.ClientFrontEnd;
 
 public class ClientFrontEnd extends Application  {
 
     //Alle Layout elemente
-    Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2, btnSendPrivat2 ;
-    Label lblTitle1, lblTitle2, lblTitle3, lblPassword1, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblSeperate13, lblFail1,lblSeperate11, lblSeperate12, lblSeperate2, lblOnlineUsers2, lblFail3;
+    Button btnLogin1, btnInfo1, btnBack4, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2, btnSendPrivat2 ;
+    Label lblTitle1, lblTitle2, lblAnleitung4, lblTitle3, lblPassword1, lblSeperate14, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblSeperate13, lblFail1,lblSeperate11, lblSeperate12, lblSeperate2, lblOnlineUsers2, lblFail3;
     PasswordField txtPassword1, txtPassword31, txtPassword32;
     TextField txtUsername1, txtUsername3, userInput2, txtPort;
     Stage window;
-    Scene scene1,scene2, scene3;
+    Scene scene1,scene2, scene3, scene4;
     String tmp, userName;
     static TextArea outputArea2;
     static TextArea userArea2;
-
-
     private ClientBackEnd client;
 
     @Override
@@ -63,13 +60,16 @@ public class ClientFrontEnd extends Application  {
         lblFail1.setFont(new Font(10));
         lblFail1.setStyle("-fx-background-color: red");
 
-
         btnRegister1 = new Button("Registrieren");
         btnRegister1.setFont(new Font(15));
+
+        btnInfo1 = new Button("Anleitung");
+        btnInfo1.setFont(new Font(15));
 
         lblSeperate11 = new Label("");
         lblSeperate12 = new Label("");
         lblSeperate13 = new Label("");
+        lblSeperate14 = new Label("");
 
         //Elemente dem Layout 1 (Loginscreen) hinzufügen
 
@@ -83,8 +83,9 @@ public class ClientFrontEnd extends Application  {
         layout1.add(btnLogin1,1,5);
         layout1.add(lblSeperate13,1,6);
         layout1.add(btnRegister1,1,7);
-        layout1.add(lblFail1, 1,8);
-
+        layout1.add(lblFail1, 2,1);
+        layout1.add(lblSeperate14,1,8);
+        layout1.add(btnInfo1, 1,9);
 
         //Scene 2 (Messenger Fenster)
         GridPane layout2 = new GridPane();
@@ -177,6 +178,26 @@ public class ClientFrontEnd extends Application  {
         layout3.add(btnBack3,1,5);
         layout3.add(btnRegister3, 1,4);
 
+        //Scene 4 (Registrierungs Fenster)
+        GridPane layout4 = new GridPane();
+        layout4.setPadding(new Insets(10));
+        scene4 = new Scene(layout4, 600,600);
+
+        lblAnleitung4 = new Label("1. Erstelle dir einen Account\n" +
+                "2. Logge dich im Login-Fenster ein\n" +
+                "3. Standartmässig werden broadcast Nachrichten verschickt\n" +
+                "4. für private nachrichten musst du die ID des anderen Users heraussuchen\n" +
+                "5. Dan musst du noch Privatnachricht senden klicken\n\n"+
+                "Stelle sicher, das du unsere Datenbank installiert hast.\n" +
+                "Das Skript dazu findest du im Ordner von dier Applikation");
+        lblAnleitung4.setPadding(new Insets(10));
+
+        btnBack4 = new Button("Zurück");
+        btnBack4.setFont(new Font(15));
+
+        layout4.add(lblAnleitung4,0,0);
+        layout4.add(btnBack4,0,4);
+
         window.setScene(scene1);
         window.setTitle("SWS Messenger");
         window.show();
@@ -212,6 +233,13 @@ public class ClientFrontEnd extends Application  {
 
         //Registrierungsfenster wird geöffent
         btnRegister1.setOnAction(e -> window.setScene(scene3));
+
+
+        //Anleitung wird angezeigt
+        btnInfo1.setOnAction(e -> window.setScene(scene4));
+
+        //Von Anleitung zurück zu Login Screen
+        btnBack4.setOnAction(e -> window.setScene(scene1));
 
         //Nachricht wird Abgeschickt
         btnSend2.setOnAction(e->{
@@ -267,7 +295,12 @@ public class ClientFrontEnd extends Application  {
         });
     }
 
-    //Nachricht wird im Messenger ausgegeben
+    //Methoden
+
+    /**
+     * Nachricht wird im Messenger ausgegeben
+     * @param message
+     */
     public static void printConsole(String message){
        try{
            if(message.startsWith("\\clear")){
@@ -280,10 +313,12 @@ public class ClientFrontEnd extends Application  {
            outputArea2.setText(outputArea2.getText()+message+"\n");
            }
        }catch (Exception e){e.printStackTrace();}
-
     }
 
-    //printet alle User die online sind aus
+    /**
+     * printet alle User die online sind aus
+     * @param user
+     */
     public static void printUsers(String user){
         try{
             user = user.substring(user.indexOf(":")+1);
@@ -292,23 +327,34 @@ public class ClientFrontEnd extends Application  {
 
     }
 
-    //löscht die Liste der Online User
+    /**
+     * löscht die Liste der Online User
+     */
     public static void clearOnlineList(){
         userArea2.setText("");
     }
 
+
+    /**
+     * Main Methode
+     * @param args
+     */
     public static void main(String[] args) {
 
         launch(args);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
+    /**
+     * Username neu setzen
+     * @param userName
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    /**
+     * Private Nachricht senden
+     */
     private void privateMessage(){
         try{
             String message = "von User " + userName + ": " +userInput2.getText();

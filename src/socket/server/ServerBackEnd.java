@@ -15,6 +15,11 @@ public class ServerBackEnd {
     private static int clientID = 0;
 
 
+
+    /**
+     * Server wird gestartet
+     * @param port
+     */
     public static void start(int port){
     try{
         //InetAddress adresse = InetAddress.getLocalHost();
@@ -28,6 +33,7 @@ public class ServerBackEnd {
         e.printStackTrace();
         }
     }
+
     //Nachricht wird an jeden User geschickt
     public static void broadcast(String message){
         for(ServerClientInfos info : clientsArrayList){
@@ -35,6 +41,12 @@ public class ServerBackEnd {
         }
     }
 
+    /**
+     * Nachricht wird gesendet
+     * @param message
+     * @param address
+     * @param port
+     */
     public static void send(String message, InetAddress address, int port){
         try{
             //Der Nachricht wird ein \\e hinzugefügt das man den Schluss der Nachricht im ByteArray erkennt
@@ -49,6 +61,10 @@ public class ServerBackEnd {
         }
     }
 
+    /**
+     * Nachricht wird als privat gesendet
+     * @param message
+     */
     private static void privateSend(String message){
         try{
             //id limitiert noch max nutzer auf 10
@@ -68,6 +84,10 @@ public class ServerBackEnd {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Listen tread der laufen checkt ob Nachrichten oder Befehle gesendet werden
+     */
     private static void listen(){
         Thread listenThread = new Thread("Einkommende Nachrichten") // Neuer Thread, ansonsten würde die Methode die Applikation nicht weiterlaufen lassen, da immer auf neue Nachrichten gewartet wird (While)
         {
@@ -94,8 +114,13 @@ public class ServerBackEnd {
     }; listenThread.start();
     }
 
-    //ServerCommand Kürzel steht immer vor der Nachricht , \\dis: = verbindung getrennt, \\con: online
-    //Die Commands \\clear & \\user werden erst im Login.printConsole interpretiert
+    /**
+     * ServerCommand Kürzel steht immer vor der Nachricht , \\dis: = verbindung getrennt, \\con: online
+     * Die Commands \\clear & \\user werden erst im Login.printConsole interpretiert
+     * @param message
+     * @param packet
+     * @return
+     */
     private static boolean srvCommand(String message, DatagramPacket packet){
         if(message.startsWith("\\con:")){
             //Name wird aus dem Commando gelesen
@@ -131,9 +156,6 @@ public class ServerBackEnd {
             return true;
         }
         return false;
-    }
-    public static void stop(){
-        runningBoolean = false;
     }
 }
 
