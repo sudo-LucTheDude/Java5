@@ -5,14 +5,15 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-public class SwsServerActions{
+public class ServerBackEnd {
 
     //Static Variablen weil wegen nur einem Server
     private static DatagramSocket socketDatagram; //(UDP-Socket)
     private static int port;
     private static boolean runningBoolean;
-    public static ArrayList<ClientInfos> clientsArrayList = new ArrayList<>();
+    public static ArrayList<ServerClientInfos> clientsArrayList = new ArrayList<>();
     private static int clientID = 0;
+
 
     public static void start(int port){
     try{
@@ -20,16 +21,16 @@ public class SwsServerActions{
         socketDatagram = new DatagramSocket(port); //(UDP-Socket)
         System.out.println("Server startet auf Port: " + port);
         InetAddress adr = socketDatagram.getInetAddress();
-        System.out.println("adresse ist " + adr);
         runningBoolean = true;
         listen();
+
     }catch(Exception e){
         e.printStackTrace();
         }
     }
     //Nachricht wird an jeden User geschickt
     public static void broadcast(String message){
-        for(ClientInfos info : clientsArrayList){
+        for(ServerClientInfos info : clientsArrayList){
             send(message, info.getAddress(), info.getPort());
         }
     }
@@ -50,11 +51,12 @@ public class SwsServerActions{
 
     private static void privateSend(String message){
         try{
+            //id limitiert noch max nutzer auf 10
             String id = message.substring(6,7);
-            System.out.print(id);
             int destId = Integer.parseInt(id);
 
-            for(ClientInfos info : clientsArrayList){
+
+            for(ServerClientInfos info : clientsArrayList){
                 int i = 0;
                 if(destId == info.getId()) {
                     message = message.substring(9);
@@ -99,11 +101,11 @@ public class SwsServerActions{
             //Name wird aus dem Commando gelesen
             String name = message.substring(message.indexOf(":")+1); //lucas
             //Neues ClientObjekt erstellen
-            clientsArrayList.add(new ClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
+            clientsArrayList.add(new ServerClientInfos(name, clientID++, packet.getAddress(), packet.getPort()));
             broadcast("Benutzer " + name + " ist online");
             //Aktualisiert Onlineliste im GUI
             broadcast("\\clear");
-            for (ClientInfos user: clientsArrayList) {
+            for (ServerClientInfos user: clientsArrayList) {
                 broadcast("\\user:" + user.getName() + " erreichbar über ID: " + user.getId());
             }
             return true;
@@ -111,13 +113,13 @@ public class SwsServerActions{
         else if(message.startsWith("\\dis:")){
             String name = message.substring(message.indexOf(":")+1); //lucas
             //Enfernt Logout Benutzer aus der ClientListe
-            for(ClientInfos info : clientsArrayList){
+            for(ServerClientInfos info : clientsArrayList){
                 if(name.equals(info.getName())){
                     broadcast("Benutzer " + info.getName() + " ist offline");
                     clientsArrayList.remove(info);
                     //Aktualisiert Onlineliste im GUI
                     broadcast("\\clear");
-                    for (ClientInfos user: clientsArrayList) {
+                    for (ServerClientInfos user: clientsArrayList) {
                         broadcast("\\user:" + user.getName() + " erreichbar über ID: " + user.getId());
                     }
                     return true;

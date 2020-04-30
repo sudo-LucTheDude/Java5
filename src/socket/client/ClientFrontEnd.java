@@ -1,4 +1,4 @@
-package JavaFX;
+package socket.client;
 
 import Database.DBconnection;
 import javafx.application.Application;
@@ -8,9 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import socket.client.SwsClient;
+import socket.client.ClientFrontEnd;
 
-public class Login extends Application  {
+public class ClientFrontEnd extends Application  {
 
     //Alle Layout elemente
     Button btnLogin1, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2, btnSendPrivat2 ;
@@ -24,7 +24,7 @@ public class Login extends Application  {
     static TextArea userArea2;
 
 
-    private SwsClient client;
+    private ClientBackEnd client;
 
     @Override
     public void start(Stage PrimaryStage) {
@@ -192,7 +192,7 @@ public class Login extends Application  {
             Boolean dbCkeck = db.passWordValidator(username, password);
             if(dbCkeck) {
                 setUserName(username);
-                client = new SwsClient(username, "localhost", 1312);
+                client = new ClientBackEnd(username, "localhost", 1312);
                 lblTitle2 = new Label("Hallo " + username +", schreibe eine Nachricht");
                 lblTitle2.setFont(new Font(20));
                 lblTitle2.setPadding(new Insets(10));
@@ -254,7 +254,7 @@ public class Login extends Application  {
             String password32 = txtPassword32.getText();
             if(password31.equals(password32)){
                 db.accountCreate(username3, password31);
-                client = new SwsClient(username3, "localhost", 1312);
+                client = new ClientBackEnd(username3, "localhost", 1312);
                 lblTitle2 = new Label("Hallo " + username3 +", schreibe eine Nachricht");
                 lblTitle2.setFont(new Font(20));
                 lblTitle2.setPadding(new Insets(10));

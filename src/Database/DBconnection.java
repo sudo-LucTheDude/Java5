@@ -30,7 +30,6 @@ public class DBconnection {
             //falls Username nicht existiert haben wir keine antwort, dies würde in einer nullPointerException resultieren, welche gecatcht wird.
             try {
                 if (dbanswer.equals(upw)) {
-                    System.out.println(dbanswer);
                     conn.close();
                     return true;
                 } else {

@@ -3,7 +3,7 @@ package socket.server;
 import java.net.InetAddress;
 
 //Diese Klasse speichert alle relevanten ClientInfos
-public class ClientInfos {
+public class ServerClientInfos {
 
     //Variabeldeklaration
     private InetAddress address;
@@ -12,7 +12,7 @@ public class ClientInfos {
     private int id;
 
     //Konstruktor
-    public ClientInfos (String name, int id, InetAddress address, int port){
+    public ServerClientInfos(String name, int id, InetAddress address, int port){
         this.name = name;
         this.id = id;
         this.address = address;
