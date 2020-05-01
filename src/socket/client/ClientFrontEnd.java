@@ -19,7 +19,7 @@ public class ClientFrontEnd extends Application  {
     Stage window;
     Scene scene1,scene2, scene3, scene4;
     String tmp, userName;
-    Tooltip ttPrivateMessage2, ttSend2, ttRegister1;
+    Tooltip toolTipPrivateMessage2, toolTipSend2, toolTipRegister1;
     static TextArea outputArea2;
     static TextArea userArea2;
 
@@ -66,8 +66,8 @@ public class ClientFrontEnd extends Application  {
 
         btnRegister1 = new Button("Registrieren");
         btnRegister1.setFont(new Font(15));
-        ttRegister1 = new Tooltip("Falls du noch keinen Account hast, kannst du dich hier registrieren");
-        btnRegister1.setTooltip(ttRegister1);
+        toolTipRegister1 = new Tooltip("Falls du noch keinen Account hast, kannst du dich hier registrieren");
+        btnRegister1.setTooltip(toolTipRegister1);
 
         btnInfo1 = new Button("Anleitung");
         btnInfo1.setFont(new Font(15));
@@ -113,15 +113,15 @@ public class ClientFrontEnd extends Application  {
 
         btnSend2 = new Button("Broadcast senden");
         btnSend2.setPadding(new Insets(10));
-        ttSend2 = new Tooltip("Nachticht eingeben und auf 'Send' drücken, ACHTUNG, Nachricht geht an ALLE!");
-        btnSend2.setTooltip(ttSend2);
+        toolTipSend2 = new Tooltip("Nachticht eingeben und auf 'Send' drücken, ACHTUNG, Nachricht geht an ALLE!");
+        btnSend2.setTooltip(toolTipSend2);
 
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
         lblSeperate2 = new Label("");
         btnSendPrivat2 = new Button("Privatnachricht senden");
         btnSendPrivat2.setPadding(new Insets(10));
-        ttPrivateMessage2 = new Tooltip("Funktionsweise: 1. BenutzerID eingeben, 2. Nachricht verfassen, 3. Auf 'Privatnachricht' drücken");
-        btnSendPrivat2.setTooltip(ttPrivateMessage2);
+        toolTipPrivateMessage2 = new Tooltip("Funktionsweise: 1. BenutzerID eingeben, 2. Nachricht verfassen, 3. Auf 'Privatnachricht' drücken");
+        btnSendPrivat2.setTooltip(toolTipPrivateMessage2);
 
         txtPort = new TextField();
         txtPort.setPromptText("ID eingeben");
@@ -219,7 +219,9 @@ public class ClientFrontEnd extends Application  {
 
         //Diverse Button Actions
 
-        //Loginbutton zum Einloggen (DB abfrage wird durchgeführt)
+        /**
+         * Loginbutton zum Einloggen (DB abfrage wird durchgeführt)
+         */
         btnLogin1.setOnAction(e -> {
             //db.setUsername(txtUsername1.getText());
             String username = txtUsername1.getText();
@@ -238,22 +240,32 @@ public class ClientFrontEnd extends Application  {
             }
         });
 
-        //Private Nachricht wird versendet
+        /**
+         * Private Nachricht wird versendet
+         */
         btnSendPrivat2.setOnAction(e->{
             privateMessage();
         });
 
-        //Registrierungsfenster wird geöffent
+        /**
+         * Registrierungsfenster wird geöffnet
+         */
         btnRegister1.setOnAction(e -> window.setScene(scene3));
 
 
-        //Anleitung wird angezeigt
+        /**
+         * Anleitung wird angezeigt
+         */
         btnInfo1.setOnAction(e -> window.setScene(scene4));
 
-        //Von Anleitung zurück zu Login Screen
+        /**
+         * Von Anleitung zurück zu Login Screen
+         */
         btnBack4.setOnAction(e -> window.setScene(scene1));
 
-        //Nachricht wird Abgeschickt
+        /**
+         * Nachricht wird Abgeschickt
+         */
         btnSend2.setOnAction(e->{
             tmp = userInput2.getText();
             tmp = userName + "; " + tmp;
@@ -262,7 +274,9 @@ public class ClientFrontEnd extends Application  {
         });
 
 
-        //Logout von Messenger, weiterleitung auf LoginScreen, gespeichertes Passwort wird gelöscht
+        /**
+         * Logout von Messenger, weiterleitung auf LoginScreen, gespeichertes Passwort wird gelöscht
+         */
         btnUserLogout2.setOnAction(e->{
             client.send("\\dis:"+ userName);
             System.out.println("\\dis:"+ userName);
@@ -274,7 +288,9 @@ public class ClientFrontEnd extends Application  {
             txtPassword1.setPromptText("Password...");
         });
 
-        //loggt den User aus bevor das Fenster manuell geschlossen wird
+        /**
+         * loggt den User aus bevor das Fenster manuell geschlossen wird
+         */
         window.setOnCloseRequest(e ->{
             try {
                 client.send("\\dis:"+ userName);
@@ -285,10 +301,14 @@ public class ClientFrontEnd extends Application  {
             }
         });
 
-        //Kehrt vom Registrierungsfenster zurück zum Login Screen
+        /**
+         * Kehrt vom Registrierungsfenster zurück zum Login Screen
+         */
         btnBack3.setOnAction(e -> window.setScene(scene1));
 
-        //User wird in der DB registriert und zu Messenger weitergeleitet
+        /**
+         * User wird in der DB registriert und zu Messenger weitergeleitet
+         */
         btnRegister3.setOnAction(e -> {
             String username3 = txtUsername3.getText();
             String password31 = txtPassword31.getText();

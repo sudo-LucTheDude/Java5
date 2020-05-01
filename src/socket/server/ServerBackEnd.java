@@ -34,7 +34,10 @@ public class ServerBackEnd {
         }
     }
 
-    //Nachricht wird an jeden User geschickt
+    /**
+     * Nachricht wird an jeden User geschickt
+     * @param message
+     */
     public static void broadcast(String message){
         for(ServerClientInfos info : clientsArrayList){
             send(message, info.getAddress(), info.getPort());
