@@ -13,7 +13,7 @@ public class ClientFrontEnd extends Application  {
 
     //Alle Layout elemente
     Button btnLogin1, btnInfo1, btnBack4, btnBack3, btnRegister1, btnSend2, btnRegister3, btnUserLogout2, btnSendPrivat2 ;
-    Label lblTitle1, lblTitle2, lblAnleitung4, lblTitle3, lblPassword1, lblSeperate14, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblSeperate13, lblFail1,lblSeperate11, lblSeperate12, lblSeperate2, lblOnlineUsers2, lblFail3;
+    Label lblTitle1, lblTitle2, lblAnleitung4, lblTitle3, lblPassword1,lblFail3, lblSeperate14, lblPassword31, lblPassword32, lblUsername1, lblUsername3, lblSeperate13, lblFail1,lblSeperate11, lblSeperate12, lblSeperate2, lblOnlineUsers2;
     PasswordField txtPassword1, txtPassword31, txtPassword32;
     TextField txtUsername1, txtUsername3, userInput2, txtPort;
     Stage window;
@@ -22,7 +22,6 @@ public class ClientFrontEnd extends Application  {
     Tooltip ttPrivateMessage2, ttSend2, ttRegister1;
     static TextArea outputArea2;
     static TextArea userArea2;
-
 
     private ClientBackEnd client;
 
@@ -156,11 +155,6 @@ public class ClientFrontEnd extends Application  {
         lblPassword32 = new Label("Nochmals Password");
         lblPassword32.setPadding(new Insets(10));
 
-        lblFail3 = new Label("Passwörter nicht gleich");
-        lblFail3.setFont(new Font(10));
-        lblFail3.setStyle("-fx-background-color: red");
-        lblFail1.setVisible(false);
-
         btnBack3 = new Button("Zurück");
         btnBack3.setFont(new Font(15));
 
@@ -170,6 +164,12 @@ public class ClientFrontEnd extends Application  {
         txtUsername3 = new TextField();
         txtUsername3.setPromptText("Username...");
         txtUsername3.setPadding(new Insets(10));
+
+        lblFail3 = new Label("Passwört stimmen nicht überein");
+        lblFail3.setFont(new Font(15));
+        lblFail3.setPadding(new Insets(10));
+        lblFail3.setStyle("-fx-background-color: red");
+        lblFail3.setVisible(false);
 
         txtPassword31 = new PasswordField();
         txtPassword31.setPromptText("Password...");
@@ -185,6 +185,7 @@ public class ClientFrontEnd extends Application  {
         layout3.add(txtUsername3,1,1);
         layout3.add(lblPassword31,0,2);
         layout3.add(txtPassword31,1,2);
+        layout3.add(lblFail3,2,2);
         layout3.add(lblPassword32,0,3);
         layout3.add(txtPassword32,1,3);
         layout3.add(btnBack3,1,5);
@@ -234,14 +235,12 @@ public class ClientFrontEnd extends Application  {
                 window.setScene(scene2);
             }else{
                 lblFail1.setVisible(true);
-
             }
         });
 
         //Private Nachricht wird versendet
         btnSendPrivat2.setOnAction(e->{
             privateMessage();
-
         });
 
         //Registrierungsfenster wird geöffent
@@ -270,6 +269,7 @@ public class ClientFrontEnd extends Application  {
             client.stop();
             window.setScene(scene1);
             lblFail1.setVisible(false);
+            lblFail3.setVisible(false);
             txtPassword1.setText("");
             txtPassword1.setPromptText("Password...");
         });
@@ -295,6 +295,7 @@ public class ClientFrontEnd extends Application  {
             String password32 = txtPassword32.getText();
             if(password31.equals(password32)){
                 db.accountCreate(username3, password31);
+                setUserName(username3);
                 client = new ClientBackEnd(username3, "localhost", 5555);
                 lblTitle2 = new Label("Hallo " + username3 +", schreibe eine Nachricht");
                 lblTitle2.setFont(new Font(20));
@@ -304,6 +305,7 @@ public class ClientFrontEnd extends Application  {
             }
             else {
                 System.out.println("Passwörter stimmen nicht überein");
+                lblFail3.setVisible(true);
             }
         });
     }
