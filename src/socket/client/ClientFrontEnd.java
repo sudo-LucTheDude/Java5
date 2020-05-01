@@ -101,6 +101,7 @@ public class ClientFrontEnd extends Application  {
 
         userInput2 = new TextField();
         userInput2.setPromptText("Nachricht eingeben");
+        userInput2.setPadding(new Insets(10));
 
         btnUserLogout2 = new Button("Logout");
         btnUserLogout2.setPadding(new Insets(10));
@@ -111,14 +112,14 @@ public class ClientFrontEnd extends Application  {
         userArea2 = new TextArea();
         userArea2.setEditable(false);
 
-        btnSend2 = new Button("Send");
+        btnSend2 = new Button("Broadcast senden");
         btnSend2.setPadding(new Insets(10));
         ttSend2 = new Tooltip("Nachticht eingeben und auf 'Send' drücken, ACHTUNG, Nachricht geht an ALLE!");
         btnSend2.setTooltip(ttSend2);
 
         lblOnlineUsers2 = new Label("Diese User sind momentatn Online: ");
         lblSeperate2 = new Label("");
-        btnSendPrivat2 = new Button("Privatnachricht");
+        btnSendPrivat2 = new Button("Privatnachricht senden");
         btnSendPrivat2.setPadding(new Insets(10));
         ttPrivateMessage2 = new Tooltip("Funktionsweise: 1. BenutzerID eingeben, 2. Nachricht verfassen, 3. Auf 'Privatnachricht' drücken");
         btnSendPrivat2.setTooltip(ttPrivateMessage2);
@@ -197,8 +198,9 @@ public class ClientFrontEnd extends Application  {
         lblAnleitung4 = new Label("1. Erstelle dir einen Account\n" +
                 "2. Logge dich im Login-Fenster ein\n" +
                 "3. Standartmässig werden broadcast Nachrichten verschickt\n" +
-                "4. für private nachrichten musst du die ID des anderen Users heraussuchen\n" +
-                "5. Dan musst du noch Privatnachricht senden klicken\n\n"+
+                "4. Für private nachrichten musst du die ID des anderen Users heraussuchen\n" +
+                "5. Dan musst du noch Privatnachricht senden klicken\n" +
+                "6. Wen du fertig mit Chatten bist, solltest du dich ausloggem\n\n"+
                 "Stelle sicher, das du unsere Datenbank installiert hast.\n" +
                 "Das Skript dazu findest du im Ordner von dier Applikation");
         lblAnleitung4.setPadding(new Insets(10));
@@ -224,7 +226,7 @@ public class ClientFrontEnd extends Application  {
             Boolean dbCkeck = db.passWordValidator(username, password);
             if(dbCkeck) {
                 setUserName(username);
-                client = new ClientBackEnd(username, "localhost", 1312);
+                client = new ClientBackEnd(username, "localhost", 5555);
                 lblTitle2 = new Label("Hallo " + username +", schreibe eine Nachricht");
                 lblTitle2.setFont(new Font(20));
                 lblTitle2.setPadding(new Insets(10));
@@ -293,7 +295,7 @@ public class ClientFrontEnd extends Application  {
             String password32 = txtPassword32.getText();
             if(password31.equals(password32)){
                 db.accountCreate(username3, password31);
-                client = new ClientBackEnd(username3, "localhost", 1312);
+                client = new ClientBackEnd(username3, "localhost", 5555);
                 lblTitle2 = new Label("Hallo " + username3 +", schreibe eine Nachricht");
                 lblTitle2.setFont(new Font(20));
                 lblTitle2.setPadding(new Insets(10));
